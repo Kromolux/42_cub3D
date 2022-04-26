@@ -6,13 +6,14 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:47:01 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 10:27:50 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/26 08:19:31 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube3d.h"
 
 static void	ft_init_struct_t_map(t_map *var);
+static void	ft_exit_malloc_error(char *s);
 
 t_map	*ft_read_input_map(char *file)
 {
@@ -20,6 +21,8 @@ t_map	*ft_read_input_map(char *file)
 	int		fd;
 	char	*read_file_result;
 
+	if (!ft_strcmp(&file[ft_strlen(file) - 4], ".cub"))
+		exit(ft_error_extension(file));
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		exit(ft_error_file("ft_read_input_map", file));
@@ -30,10 +33,7 @@ t_map	*ft_read_input_map(char *file)
 	output = (t_map *) ft_calloc(sizeof(t_map));
 	ft_init_struct_t_map(output);
 	if (!output)
-	{
-		free(read_file_result);
-		exit(ft_error_malloc("ft_read_input_map", "output", sizeof(t_map)));
-	}
+		ft_exit_malloc_error(read_file_result);
 	ft_create_map_array(read_file_result, output);
 	return (output);
 }
@@ -42,4 +42,14 @@ static void	ft_init_struct_t_map(t_map *var)
 {
 	var->resolution.width = WIDTH;
 	var->resolution.height = HEIGHT;
+	var->offset.x = 100;
+	var->offset.y = 100;
+	var->tile_size.x = 32;
+	var->tile_size.y = 32;
+}
+
+static void	ft_exit_malloc_error(char *s)
+{
+	free(s);
+	exit(ft_error_malloc("ft_read_input_map", "output", sizeof(t_map)));
 }

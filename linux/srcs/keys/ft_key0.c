@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:45:01 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 11:25:21 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:23:24 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@ int	ft_key(int keycode, t_engine *engine)
 {
 	if (keycode == XK_Escape)
 		ft_engine_destroy(engine);
-	else if (keycode == XK_Left || keycode == XK_Right
-		|| keycode == XK_Up || keycode == XK_Down)
-		ft_key_screen_movement(keycode, engine);
-	else if (keycode == XK_a || keycode == XK_d
-		|| keycode == XK_s || keycode == XK_w
-		|| keycode == XK_q || keycode == XK_e)
-		ft_key_rotation(keycode, engine);
+	else if (keycode == XK_a || keycode == XK_s
+		|| keycode == XK_d || keycode == XK_w)
+		ft_key_player_movement(keycode, engine);
+	else if (keycode == XK_Left || keycode == XK_Right)
+		ft_key_player_rotation(keycode, engine);
 	else if (keycode == XK_i || keycode == XK_p)
 		ft_key_projection_change(keycode, engine);
 	else if (keycode == XK_PLUS || keycode == XK_MINUS
@@ -56,30 +54,46 @@ void	ft_key_projection_change(int keycode, t_engine *engine)
 	}
 }
 
-void	ft_key_screen_movement(int keycode, t_engine *engine)
+void	ft_key_player_movement(int keycode, t_engine *engine)
 {
-	if (keycode == XK_Left)
-		engine->screen->movement.x -= 1;
-	else if (keycode == XK_Right)
-		engine->screen->movement.x += 1;
-	else if (keycode == XK_Up)
-		engine->screen->movement.y -= 1;
-	else if (keycode == XK_Down)
-		engine->screen->movement.y += 1;
+	t_player	*player;
+
+	player = &engine->screen->player;
+	if (keycode == XK_a)
+	{
+		player->x -= player->dx;
+		player->y += player->dy;
+	}
+	else if (keycode == XK_d)
+	{
+		player->x += player->dx;
+		player->y -= player->dy;
+	}
+	else if (keycode == XK_w)
+	{
+		player->x += player->dx;
+		player->y += player->dy;
+	}
+	else if (keycode == XK_s)
+	{
+		player->x -= player->dx;
+		player->y -= player->dy;
+	}
 }
 
-void	ft_key_rotation(int keycode, t_engine *engine)
+void	ft_key_player_rotation(int keycode, t_engine *engine)
 {
-	if (keycode == XK_a)
-		engine->screen->angle.y++;
-	else if (keycode == XK_d)
-		engine->screen->angle.y--;
-	else if (keycode == XK_s)
-		engine->screen->angle.x++;
-	else if (keycode == XK_w)
-		engine->screen->angle.x--;
-	else if (keycode == XK_q)
-		engine->screen->angle.z++;
-	else if (keycode == XK_e)
-		engine->screen->angle.z--;
+	t_player	*player;
+
+	player = &engine->screen->player;
+	if (keycode == XK_Left)
+		player->angle -= 3.0;
+	else if (keycode == XK_Right)
+		player->angle += 3.0;
+	if (player->angle < 0)
+		player->angle += 360.0;
+	else if (player->angle > 360.0)
+		player->angle -= 360.0;
+	player->dx = cos(player->angle * M_PI / 180.0) * 5;
+	player->dy = sin(player->angle * M_PI / 180.0) * 5;
 }

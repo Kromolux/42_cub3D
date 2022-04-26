@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:48:13 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 10:48:33 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/25 18:33:22 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static void	ft_alloc_map(t_map *screen, char **string_array)
 	i_row = 0;
 	while (i_row < screen->rows)
 	{
-		screen->map[i_row] = (char *) ft_calloc(sizeof(char)
-				* screen->columns);
+		screen->map[i_row] = (char *) ft_calloc_char(sizeof(char)
+				* screen->columns, ' ');
 		if (!screen->map[i_row])
 			ft_error_map_row(screen, string_array, i_row);
 		i_row++;

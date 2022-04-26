@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:48:47 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 11:30:10 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:56:40 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,9 @@ unsigned int	ft_abs(int number)
 void	ft_apply_rotation(t_engine *engine)
 {
 	(void) engine;
+}
+
+float	ft_dist(t_player *player, float rx, float ry)
+{
+	return (sqrt((player->x - rx) * (player->x - rx) + (player->y - ry) * (player->y - ry)));
 }

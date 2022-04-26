@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 07:11:08 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/03/08 15:43:38 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/25 13:42:43 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_check_hex(const char *input)
 {
 	int	i;
 
-	if (ft_string_compare(",0x", input) != 0)
+	if (ft_strcmp(",0x", input) != 0)
 		return (0);
 	i = 3;
 	while (input[i])

@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:46:46 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 11:26:16 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:46:54 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,28 @@ static void	ft_display_info2(t_engine *engine, int x, int color)
 	free(str);
 	mlx_string_put(engine->mlx, engine->window, x, 280, color,
 		"change projection:  i = isometric p = parallel");
+	
+	mlx_string_put(engine->mlx, engine->window, x, 320, color,
+		"player.x: ");
+	str = malloc(20);
+	sprintf(str, "%.8f", engine->screen->player.x);
+	mlx_string_put(engine->mlx, engine->window, x + 100, 320, color, str);
+	//free(str);
+	sprintf(str, "%i",(int) engine->screen->player.x / (engine->screen->tile_size.x + 1));
+	mlx_string_put(engine->mlx, engine->window, x + 200, 320, color, str);
+
+	mlx_string_put(engine->mlx, engine->window, x, 340, color,
+		"player.y: ");
+	sprintf(str, "%.8f",engine->screen->player.y);
+	mlx_string_put(engine->mlx, engine->window, x + 100, 340, color, str);
+	//free(str);
+	sprintf(str, "%i", (int) engine->screen->player.y / (engine->screen->tile_size.y + 1));
+	mlx_string_put(engine->mlx, engine->window, x + 200, 340, color, str);
+
+	mlx_string_put(engine->mlx, engine->window, x, 360, color,
+		"player.angle: ");
+	sprintf(str, "%f",engine->screen->player.angle);
+	mlx_string_put(engine->mlx, engine->window, x + 200, 360, color, str);
+	free(str);
+
 }

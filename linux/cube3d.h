@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 08:50:54 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 11:25:39 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:45:15 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "minilibx-linux/mlx.h"
 # define WIDTH 1600
 # define HEIGHT 900
-# define TITLE "<cube3D> - <42 Wolfsburg Project> - <made by Eduard Hosu and Rene Kaufmann>"
+# define TITLE "<cub3D> - <42 Wolfsburg Project> - <made by Eduard Hosu and Rene Kaufmann>"
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 16384
 # endif
@@ -36,6 +36,10 @@
 # ifndef XK_MINUS
 #  define XK_MINUS 0xffad
 # endif
+# define PI_2 6.283185307179586476925286766559
+# define M_3PI2 4.71238899
+# define M_PI2 1.57079637
+# define DR 0.0174533
 
 typedef enum e_return {
 	RETURN_ERROR = -1,
@@ -53,6 +57,14 @@ typedef struct s_data {
 	int			endian;
 }				t_data;
 
+typedef struct s_player {
+	float		x;
+	float		y;
+	float		dx;
+	float		dy;
+	float		angle;
+}				t_player;
+
 typedef struct s_engine {
 	void			*mlx;
 	void			*window;
@@ -68,6 +80,11 @@ typedef struct s_point {
 	int			y;
 	int			z;
 }				t_point;
+
+typedef struct s_2d_point {
+	int			x;
+	int			y;
+}				t_2d_point;
 
 typedef struct s_resolution {
 	int			width;
@@ -110,6 +127,7 @@ typedef struct s_line {
 }				t_line;
 
 typedef struct s_map {
+	struct s_player		player;
 	char				**map;
 	//struct s_3d_point	**map;
 	//struct s_3d_point	**proj;
@@ -121,7 +139,8 @@ typedef struct s_map {
 	int					zoom_z;
 	struct s_resolution	resolution;
 	struct s_pivot		pivot;
-	struct s_point		offset;
+	struct s_2d_point	offset;
+	struct s_2d_point	tile_size;
 	struct s_point		factor;
 	struct s_point		angle;
 	struct s_point		movement;
@@ -144,6 +163,13 @@ int				ft_error_number(char *function, char *value, size_t row,
 					size_t column);
 void			ft_error_split(t_map *screen, char *input);
 
+//ft_error1.c
+int				ft_error_extension(char *file);
+int				ft_error_char(char c, int row);
+int				ft_error_border(char c, int row, int column);
+int				ft_error_player(char c, int row, int column);
+int				ft_error_no_player(void);
+
 //ft_error_map.c
 void			ft_error_input(t_map *screen, char **string_array);
 void			ft_error_map(t_map *screen, char **string_array);
@@ -165,6 +191,9 @@ int				ft_engine_destroy(t_engine *engine);
 size_t			ft_count_of_columns(char *s, char c);
 void			ft_check_input_exit_on_error(t_map *screen, char **input);
 int				ft_valid_number(char *argv);
+int				ft_empty_space(char c);
+int				ft_check_around(char **input, int row, int column);
+int				ft_is_player(char c);
 
 //ft_file.c
 t_map			*ft_read_input_map(char *file);
@@ -176,6 +205,7 @@ void			ft_get_point(t_engine *engine, int row, int column,
 
 //ft_geometry.c
 void			ft_draw_rectangle(t_engine *engine, t_line rectangle);
+void			ft_draw_rectangle_full(t_engine *engine, t_line rectangle);
 
 //ft_lines0.c
 void			ft_draw_rectangle(t_engine *engine, t_line rectangle);
@@ -200,6 +230,7 @@ int				ft_get_rgb(int start, int end, double percentage);
 //ft_math.c
 unsigned int	ft_abs(int number);
 void			ft_apply_rotation(t_engine *engine);
+float			ft_dist(t_player *player, float rx, float ry);
 
 //ft_rotations.c
 void			ft_rotate_x(t_engine *engine, int i_row, int i_column,
@@ -212,8 +243,8 @@ void			ft_rotate_z(t_engine *engine, int i_row, int i_column,
 //ft_key0.c
 int				ft_key(int keycode, t_engine *engine);
 void			ft_key_projection_change(int keycode, t_engine *engine);
-void			ft_key_screen_movement(int keycode, t_engine *engine);
-void			ft_key_rotation(int key, t_engine *engine);
+void			ft_key_player_movement(int keycode, t_engine *engine);
+void			ft_key_player_rotation(int key, t_engine *engine);
 void			ft_key_zoom(int keycode, t_engine *engine);
 
 //ft_key1.c
@@ -226,5 +257,11 @@ void			ft_draw_map(t_engine *engine);
 
 //ft_display_info.c
 void			ft_display_info(t_engine *engine);
+
+//ft_player.c
+void			ft_draw_player(t_engine *engine);
+
+//ft_raycasting.c
+void			ft_draw_3d_ray(t_engine *engine);
 
 #endif

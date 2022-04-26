@@ -6,7 +6,7 @@
 #    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 08:48:00 by rkaufman          #+#    #+#              #
-#    Updated: 2022/04/25 11:39:49 by rkaufman         ###   ########.fr        #
+#    Updated: 2022/04/26 10:01:51 by rkaufman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ LIB_PATH			:=	./
 MLX_PATH			:=	minilibx-linux
 MLX_LIB				:=	mlx_Linux
 
-OBJ_FOLDER	:=	objs
-SRC_FOLDER	:=	srcs
+OBJ_FOLDER			:=	objs
+SRC_FOLDER			:=	srcs
 
 CC					:=	gcc
 HEADERFILE			:=	cube3d.h
@@ -37,6 +37,7 @@ SRCS			:=	ft_cube3d.c \
 					engine/ft_math.c \
 					engine/ft_rotations.c \
 					engine/ft_pixel.c \
+					engine/ft_player.c \
 					keys/ft_key0.c \
 					keys/ft_key1.c \
 					map/ft_file.c \
@@ -45,16 +46,18 @@ SRCS			:=	ft_cube3d.c \
 					engine/ft_grafic.c \
 					engine/ft_display_info.c \
 					errors/ft_error.c \
+					errors/ft_error1.c \
 					errors/ft_error_map.c \
 					map/ft_memory_map.c \
 					engine/ft_geometry.c \
-					engine/ft_color.c
+					engine/ft_color.c \
+					engine/ft_raycasting.c
 
 SRC_BONUS	:=	
 
-OBJS		:= $(SRCS:%.c=$(OBJ_FOLDER)/%.o)
+OBJS		:=	$(SRCS:%.c=$(OBJ_FOLDER)/%.o)
 
-CFLAGS		:=	-g #-Wall -Wextra -Werror -g
+CFLAGS		:=	-Wall -Wextra -Werror -g
 
 all: $(NAME)
 

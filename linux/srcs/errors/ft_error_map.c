@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:45:32 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 11:26:41 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/25 13:36:07 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_error_input(t_map *screen, char **string_array)
 		"map file by function: ft_create_map_array.\n");
 	ft_free_char_array(string_array);
 	free(screen);
-	exit(1);
+	exit(RETURN_ERROR);
 }
 
 void	ft_error_map(t_map *screen, char **string_array)
@@ -28,7 +28,7 @@ void	ft_error_map(t_map *screen, char **string_array)
 		sizeof(t_3d_point *) * screen->rows);
 	ft_free_char_array(string_array);
 	free(screen);
-	exit(1);
+	exit(RETURN_ERROR);
 }
 
 void	ft_error_proj(t_map *screen, char **string_array)
@@ -38,7 +38,7 @@ void	ft_error_proj(t_map *screen, char **string_array)
 	ft_free_char_array(string_array);
 	free(screen->map);
 	free(screen);
-	exit(1);
+	exit(RETURN_ERROR);
 }
 
 void	ft_error_map_row(t_map *screen, char **string_array, int i_row)
@@ -53,7 +53,7 @@ void	ft_error_map_row(t_map *screen, char **string_array, int i_row)
 	}
 	free(screen->map);
 	free(screen);
-	exit(1);
+	exit(RETURN_ERROR);
 }
 
 void	ft_error_proj_row(t_map *screen, char **string_array, int i_row)
@@ -74,5 +74,5 @@ void	ft_error_proj_row(t_map *screen, char **string_array, int i_row)
 	}
 	free(screen->map);
 	free(screen);
-	exit(1);
+	exit(RETURN_ERROR);
 }

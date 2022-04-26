@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:46:09 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 09:46:10 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:27:35 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,21 @@ void	ft_draw_rectangle(t_engine *engine, t_line rectangle)
 	line.end.x = rectangle.start.x;
 	line.end.y = rectangle.end.y;
 	ft_draw_line(engine, line);
+}
+
+void	ft_draw_rectangle_full(t_engine *engine, t_line rectangle)
+{
+	t_line	line;
+
+	line.start.color = rectangle.start.color;
+	line.end.color = rectangle.end.color;
+	line.start.x = rectangle.start.x;
+	line.end.x = rectangle.end.x;
+	while (rectangle.start.y <= rectangle.end.y)
+	{
+		line.start.y = rectangle.start.y;
+		line.end.y = rectangle.start.y;
+		ft_draw_line(engine, line);
+		rectangle.start.y++;
+	}
 }

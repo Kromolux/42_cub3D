@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:58:53 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/02/24 17:12:17 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/25 13:44:20 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_apply_precision(char *s, t_flags *flags)
 	s_len = (int) ft_strlen(s);
 	if (flags->conversion == 's')
 	{
-		if (LINUX && ft_string_compare(s, "(null)") == 0
+		if (LINUX && ft_strcmp(s, "(null)") == 0
 			&& s_len > flags->precision)
 			s[0] = '\0';
 		else if (s_len >= flags->precision)
