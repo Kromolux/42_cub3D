@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:46:46 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/26 14:46:54 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/27 12:45:17 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static void	ft_display_info2(t_engine *engine, int x, int color)
 	sprintf(str, "%.8f", engine->screen->player.x);
 	mlx_string_put(engine->mlx, engine->window, x + 100, 320, color, str);
 	//free(str);
-	sprintf(str, "%i",(int) engine->screen->player.x / (engine->screen->tile_size.x + 1));
+	sprintf(str, "%i",(int) engine->screen->player.x / (engine->screen->tile_size));
 	mlx_string_put(engine->mlx, engine->window, x + 200, 320, color, str);
 
 	mlx_string_put(engine->mlx, engine->window, x, 340, color,
@@ -111,7 +111,7 @@ static void	ft_display_info2(t_engine *engine, int x, int color)
 	sprintf(str, "%.8f",engine->screen->player.y);
 	mlx_string_put(engine->mlx, engine->window, x + 100, 340, color, str);
 	//free(str);
-	sprintf(str, "%i", (int) engine->screen->player.y / (engine->screen->tile_size.y + 1));
+	sprintf(str, "%i", (int) engine->screen->player.y / (engine->screen->tile_size));
 	mlx_string_put(engine->mlx, engine->window, x + 200, 340, color, str);
 
 	mlx_string_put(engine->mlx, engine->window, x, 360, color,

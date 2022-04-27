@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:48:47 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/26 15:56:40 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:31:23 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,26 @@ void	ft_apply_rotation(t_engine *engine)
 	(void) engine;
 }
 
-float	ft_dist(t_player *player, float rx, float ry)
+double	ft_dist(t_player *player, double rx, double ry)
 {
 	return (sqrt((player->x - rx) * (player->x - rx) + (player->y - ry) * (player->y - ry)));
+}
+
+float	ft_dist_new(int dx, int dy, float angle)
+{
+	return (dx * cos(angle) + dy * sin(angle));
+}
+
+double	ft_fix_angle(double a)
+{
+	if (a < 0.0)
+		a += 360.0;
+	if (a >= 360.0)
+		a -= 360.0;
+	return (a);
+}
+
+double	ft_deg_to_rad(double d)
+{
+	return (d* M_PI / 180.0);
 }

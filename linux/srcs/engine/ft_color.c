@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:46:33 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 09:46:35 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/27 19:08:19 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,19 @@ double	ft_get_percentage(int start, int end, int pos)
 int	ft_get_rgb(int start, int end, double percentage)
 {
 	return ((int)((1 - percentage) * start + percentage * end));
+}
+
+int	ft_get_rgb_color(char *s)
+{
+	char	**rgb;
+	int		red;
+	int		green;
+	int		blue;
+
+	rgb = ft_split(s, ',');
+	red = ft_string_to_int(rgb[0]);
+	green = ft_string_to_int(rgb[1]);
+	blue = ft_string_to_int(rgb[2]);
+	ft_free_char_array(rgb);
+	return ((red << 16) | (green << 8) | blue);
 }

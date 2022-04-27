@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:46:02 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/26 10:47:04 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/27 17:00:01 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@
 int	ft_render_frame(t_engine *engine)
 {
 	//ft_apply_rotation(engine);
+	//ft_key_player_move(engine);
+	//ft_key_player_rotate(engine);
 	ft_draw_map(engine);
 	ft_draw_player(engine);
 	ft_draw_3d_ray(engine);
+	//ft_draw_camera(engine);
 	mlx_put_image_to_window(engine->mlx, engine->window,
 		engine->img->img, 0, 0);
 	if (engine->img == &engine->img0)
@@ -29,6 +32,27 @@ int	ft_render_frame(t_engine *engine)
 	ft_clear_image(engine);
 	ft_display_info(engine);
 	return (0);
+}
+
+void	ft_draw_camera(t_engine *engine)
+{
+	t_line	line;
+
+	float	cv_x, cv_y;
+
+	line.start.color = 0x00000000;
+	line.end.color = 0x00000000;
+	cv_x = cos((engine->screen->player.angle - 90) * M_PI / 180.0) * 100;
+	cv_y = sin((engine->screen->player.angle - 90) * M_PI / 180.0) * 100;
+	// if (player->angle < 0)
+	// 	player->angle += 360.0;
+	// else if (player->angle > 360.0)
+	// 	player->angle -= 360.0;
+	line.start.x = engine->screen->player.x + cv_x;
+	line.start.y = engine->screen->player.y + cv_y;
+	line.end.x = engine->screen->player.x - cv_x;
+	line.end.y = engine->screen->player.y -cv_y;
+	ft_draw_line(engine, line);
 }
 
 void	ft_clear_image(t_engine *engine)
@@ -55,30 +79,6 @@ void	ft_draw_map(t_engine *engine)
 	int		i_row;
 	int		i_column;
 
-	line.start.color = 0x00FFFFFF;
-	line.end.color = 0x00FFFFFF;
-	i_row = 0;
-	i_column = 0;
-	line.start.x = 0;
-	line.end.x = (engine->screen->columns) * engine->screen->tile_size.x + engine->screen->columns - 2;
-	while (i_row < engine->screen->rows)
-	{
-
-		line.start.y = i_row * (engine->screen->tile_size.y) + i_row - 1;
-		line.end.y = line.start.y;
-		ft_draw_line(engine, line);
-		i_row++;
-	}
-	line.start.y = 0;
-	line.end.y = (engine->screen->rows) * engine->screen->tile_size.y + (engine->screen->rows) - 2;
-	while (i_column < engine->screen->columns)
-	{
-
-		line.start.x = i_column * (engine->screen->tile_size.x) + i_column - 1;
-		line.end.x = line.start.x;
-		ft_draw_line(engine, line);
-		i_column++;
-	}
 	i_row = 0;
 	i_column = 0;
 	while (i_row < engine->screen->rows)
@@ -86,10 +86,10 @@ void	ft_draw_map(t_engine *engine)
 		i_column = 0;
 		while (i_column < engine->screen->columns)
 		{
-			line.start.x = i_column * (engine->screen->tile_size.x) + i_column;
-			line.start.y = i_row * (engine->screen->tile_size.y) + i_row;
-			line.end.x = (1 + i_column) * (engine->screen->tile_size.x) - 1 + i_column;
-			line.end.y = (1 + i_row) * (engine->screen->tile_size.y) - 1 + i_row;
+			line.start.x = i_column * (engine->screen->tile_size);
+			line.start.y = i_row * (engine->screen->tile_size);
+			line.end.x = (1 + i_column) * (engine->screen->tile_size) - 1;
+			line.end.y = (1 + i_row) * (engine->screen->tile_size) - 1;
 			if (engine->screen->map[i_row][i_column] == '1')
 			{
 				line.start.color = 0x00aaaaaa;
@@ -108,6 +108,9 @@ void	ft_draw_map(t_engine *engine)
 				line.end.color = 0x00000000;
 			}
 			ft_draw_rectangle_full(engine, line);
+			line.start.color = 0x00FFFFFF;
+			line.end.color = 0x00FFFFFF;
+			ft_draw_rectangle(engine, line);
 			//ft_put_pixel(engine->img, i_column * 10 + engine->screen->offset.x, i_row * 10 + engine->screen->offset.y, color);
 			//ft_get_point(engine, i_row, i_column, &line.start);
 			//ft_get_point(engine, i_row, i_column + 1, &line.end);
@@ -118,6 +121,32 @@ void	ft_draw_map(t_engine *engine)
 		}
 		i_row++;
 	}
+	/*
+	line.start.color = 0x00FFFFFF;
+	line.end.color = 0x00FFFFFF;
+	i_row = 0;
+	i_column = 0;
+	line.start.x = 0;
+	line.end.x = (engine->screen->columns) * engine->screen->tile_size;
+	while (i_row < engine->screen->rows)
+	{
+
+		line.start.y = i_row * (engine->screen->tile_size);
+		line.end.y = line.start.y;
+		ft_draw_line(engine, line);
+		i_row++;
+	}
+	line.start.y = 0;
+	line.end.y = (engine->screen->rows) * engine->screen->tile_size;
+	while (i_column < engine->screen->columns)
+	{
+
+		line.start.x = i_column * (engine->screen->tile_size);
+		line.end.x = line.start.x;
+		ft_draw_line(engine, line);
+		i_column++;
+	}
+	*/
 	//ft_draw_endlines(engine);
 }
 /*

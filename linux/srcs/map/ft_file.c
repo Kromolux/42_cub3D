@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:47:01 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/26 08:19:31 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/27 12:25:28 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ static void	ft_init_struct_t_map(t_map *var)
 	var->resolution.height = HEIGHT;
 	var->offset.x = 100;
 	var->offset.y = 100;
-	var->tile_size.x = 32;
-	var->tile_size.y = 32;
+	var->tile_size = 32;
 }
 
 static void	ft_exit_malloc_error(char *s)

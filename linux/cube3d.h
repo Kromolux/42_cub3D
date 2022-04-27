@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 08:50:54 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/26 15:45:15 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/27 20:09:19 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define M_3PI2 4.71238899
 # define M_PI2 1.57079637
 # define DR 0.0174533
+# define DISTANCE 20
 
 typedef enum e_return {
 	RETURN_ERROR = -1,
@@ -48,6 +49,15 @@ typedef enum e_return {
 	RETURN_TRUE = 2,
 	RETURN_EXIT = 3
 }			t_return;
+
+typedef struct s_key {
+	int			w;
+	int			a;
+	int			s;
+	int			d;
+	int			left;
+	int			right;
+}				t_key;
 
 typedef struct s_data {
 	void		*img;
@@ -58,11 +68,15 @@ typedef struct s_data {
 }				t_data;
 
 typedef struct s_player {
-	float		x;
-	float		y;
-	float		dx;
-	float		dy;
-	float		angle;
+	double		x;
+	double		y;
+	double		dx;
+	double		dy;
+	double		angle;
+	int			free_w;
+	int			free_s;
+	int			free_a;
+	int			free_d;
 }				t_player;
 
 typedef struct s_engine {
@@ -73,6 +87,7 @@ typedef struct s_engine {
 	t_data			*img;
 	char			*file;
 	struct s_map	*screen;
+	struct s_key	key;
 }				t_engine;
 
 typedef struct s_point {
@@ -135,12 +150,19 @@ typedef struct s_map {
 	//int					colored;
 	int					rows;
 	int					columns;
+	int					map_start;
+	int					floor_color;
+	int					ceiling_color;
+	char				*texture_no;
+	char				*texture_so;
+	char				*texture_we;
+	char				*texture_ea;
 	int					zoom;
 	int					zoom_z;
 	struct s_resolution	resolution;
 	struct s_pivot		pivot;
 	struct s_2d_point	offset;
-	struct s_2d_point	tile_size;
+	int					tile_size;
 	struct s_point		factor;
 	struct s_point		angle;
 	struct s_point		movement;
@@ -169,6 +191,9 @@ int				ft_error_char(char c, int row);
 int				ft_error_border(char c, int row, int column);
 int				ft_error_player(char c, int row, int column);
 int				ft_error_no_player(void);
+
+//ft_error2.c
+int				ft_error_map_file(char *s, int row);
 
 //ft_error_map.c
 void			ft_error_input(t_map *screen, char **string_array);
@@ -202,6 +227,8 @@ t_map			*ft_read_input_map(char *file);
 void			ft_create_map_array(char *input, t_map *screen);
 void			ft_get_point(t_engine *engine, int row, int column,
 					t_3d_point *point);
+int				ft_check_map_identifier(t_map *screen);
+size_t			ft_get_map_columns(char **input);
 
 //ft_geometry.c
 void			ft_draw_rectangle(t_engine *engine, t_line rectangle);
@@ -226,11 +253,15 @@ void			ft_get_point(t_engine *engine, int row, int column,
 int				ft_get_color(t_line *line);
 double			ft_get_percentage(int start, int end, int pos);
 int				ft_get_rgb(int start, int end, double percentage);
+int				ft_get_rgb_color(char *s);
 
 //ft_math.c
 unsigned int	ft_abs(int number);
 void			ft_apply_rotation(t_engine *engine);
-float			ft_dist(t_player *player, float rx, float ry);
+double			ft_dist(t_player *player, double rx, double ry);
+float			ft_dist_new(int dx, int dy, float angle);
+double			ft_fix_angle(double a);
+double			ft_deg_to_rad(double d);
 
 //ft_rotations.c
 void			ft_rotate_x(t_engine *engine, int i_row, int i_column,
@@ -244,9 +275,16 @@ void			ft_rotate_z(t_engine *engine, int i_row, int i_column,
 int				ft_key(int keycode, t_engine *engine);
 void			ft_key_projection_change(int keycode, t_engine *engine);
 void			ft_key_player_movement(int keycode, t_engine *engine);
+void			ft_key_player_move(t_engine *engine);
 void			ft_key_player_rotation(int key, t_engine *engine);
 void			ft_key_zoom(int keycode, t_engine *engine);
-
+int				ft_key_pressed(int keycode, t_engine *engine);
+int				ft_key_released(int keycode, t_engine *engine);
+void			ft_key_player_rotate_pressed(int keycode, t_engine *engine);
+void			ft_key_player_rotate_released(int keycode, t_engine *engine);
+void			ft_key_player_rotate(t_engine *engine);
+void	ft_key_player_move_pressed(int keycode, t_engine *engine);
+void	ft_key_player_move_released(int keycode, t_engine *engine);
 //ft_key1.c
 void			ft_key_center_view(int keycode, t_engine *engine);
 
@@ -254,6 +292,7 @@ void			ft_key_center_view(int keycode, t_engine *engine);
 int				ft_render_frame(t_engine *engine);
 void			ft_clear_image(t_engine *engine);
 void			ft_draw_map(t_engine *engine);
+void			ft_draw_camera(t_engine *engine);
 
 //ft_display_info.c
 void			ft_display_info(t_engine *engine);

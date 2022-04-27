@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:49:54 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/26 15:24:07 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/27 20:09:32 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,46 @@ void	ft_check_input_exit_on_error(t_map *screen, char **input)
 {
 	int	i_row;
 	int	i_column;
+	int	map_start;
+
+	i_row = 0;
+	while (input[i_row])
+	{
+		if (ft_strlen(input[i_row]) >= 1)
+		{
+			if (ft_strncmp(input[i_row], "F ", 2) == 0 && screen->floor_color == -1)
+				screen->floor_color = ft_get_rgb_color(&input[i_row][2]);
+			else if (ft_strncmp(input[i_row], "C ", 2) == 0 && screen->ceiling_color == -1)
+				screen->ceiling_color = ft_get_rgb_color(&input[i_row][2]);
+			else if (ft_strncmp(input[i_row], "NO ", 3) == 0 && screen->texture_no == NULL)
+				screen->texture_no = ft_string_dup(&input[i_row][3]);
+			else if (ft_strncmp(input[i_row], "SO ", 3) == 0 && screen->texture_so == NULL)
+				screen->texture_so = ft_string_dup(&input[i_row][3]);
+			else if (ft_strncmp(input[i_row], "WE ", 3) == 0 && screen->texture_we == NULL)
+				screen->texture_we = ft_string_dup(&input[i_row][3]);
+			else if (ft_strncmp(input[i_row], "EA ", 3) == 0 && screen->texture_ea == NULL)
+				screen->texture_ea = ft_string_dup(&input[i_row][3]);
+			else
+				exit(ft_error_map_file(input[i_row], i_row));
+		}
+		i_row++;
+		if (ft_check_map_identifier(screen) == RETURN_SUCCESS)
+			break ;
+	}
+	while (ft_strlen(input[i_row]) == 0)
+		i_row++;
+	map_start = i_row;
+	screen->map_start = map_start;
+	while (input[i_row])
+		i_row++;
+	
+	screen->rows = i_row - map_start;
+	screen->columns = ft_get_map_columns(&input[map_start]);
 
 	i_row = 0;
 	while (i_row < screen->rows)
 	{
-		if (ft_valid_char(input[i_row], i_row) == RETURN_ERROR)
+		if (ft_valid_char(input[i_row + map_start], i_row + map_start) == RETURN_ERROR)
 		{
 			free(screen);
 			ft_free_char_array(input);
@@ -59,30 +94,30 @@ void	ft_check_input_exit_on_error(t_map *screen, char **input)
 	i_row = 0; //free mem at error!
 	while (i_row < screen->rows)
 	{
-		if (ft_empty_space(input[i_row][0]) == RETURN_ERROR)
-			exit(ft_error_border(input[i_row][0], i_row, 0));
-		else if (ft_empty_space(input[i_row][screen->columns - 1]) == RETURN_ERROR)
-			exit(ft_error_border(input[i_row][screen->columns], i_row, screen->columns));
+		if (ft_empty_space(input[i_row + map_start][0]) == RETURN_ERROR)
+			exit(ft_error_border(input[i_row + map_start][0], i_row, 0));
+		else if (ft_empty_space(input[i_row + map_start][screen->columns - 1]) == RETURN_ERROR)
+			exit(ft_error_border(input[i_row + map_start][screen->columns], i_row, screen->columns));
 		i_row++;
 	}
 	i_column = 0;
 	while (i_column < screen->columns)
 	{
-		if (ft_empty_space(input[0][i_column]) == RETURN_ERROR)
-			exit(ft_error_border(input[0][i_column], 0, i_column));
-		else if (ft_empty_space(input[screen->rows - 1][i_column]) == RETURN_ERROR)
-			exit(ft_error_border(input[screen->rows][i_column], screen->rows, i_column));
+		if (ft_empty_space(input[map_start][i_column]) == RETURN_ERROR)
+			exit(ft_error_border(input[map_start][i_column], map_start, i_column));
+		else if (ft_empty_space(input[screen->rows - 1 + map_start][i_column]) == RETURN_ERROR)
+			exit(ft_error_border(input[screen->rows + map_start][i_column], screen->rows, i_column));
 		i_column++;
 	}
-	i_row = 1;
+	i_row = + 1;
 	while (i_row < screen->rows - 1)
 	{
 		i_column = 1;
 		while (i_column < screen->columns - 1)
 		{
-			if (ft_empty_space(input[i_row][i_column]) == RETURN_ERROR)
-				if (ft_check_around(input, i_row, i_column) == RETURN_ERROR)
-					exit(ft_error_border(input[i_row][i_column], i_row + 1, i_column + 1));
+			if (ft_empty_space(input[i_row + map_start][i_column]) == RETURN_ERROR)
+				if (ft_check_around(input, i_row + map_start, i_column) == RETURN_ERROR)
+					exit(ft_error_border(input[i_row + map_start][i_column], i_row + 1, i_column + 1));
 			i_column++;
 		}
 		i_row++;
@@ -95,20 +130,20 @@ void	ft_check_input_exit_on_error(t_map *screen, char **input)
 		i_column = 0;
 		while (i_column < screen->columns)
 		{
-			if (ft_is_player(input[i_row][i_column]) == RETURN_TRUE)
+			if (ft_is_player(input[i_row + map_start][i_column]) == RETURN_TRUE)
 			{
 				player++;
 				if (player > 1)
-					exit(ft_error_player(input[i_row][i_column], i_row + 1, i_column + 1));
-				screen->player.x = i_column * screen->tile_size.x + i_column + (screen->tile_size.x / 2.0);
-				screen->player.y = i_row * screen->tile_size.y + i_row + (screen->tile_size.y / 2.0);
-				if (input[i_row][i_column] == 'N')
+					exit(ft_error_player(input[i_row + map_start][i_column], i_row + 1 + map_start, i_column + 1));
+				screen->player.x = i_column * screen->tile_size + (screen->tile_size / 2.0);
+				screen->player.y = i_row * screen->tile_size + (screen->tile_size / 2.0);
+				if (input[i_row + map_start][i_column] == 'N')
 					screen->player.angle = 270.0;
-				else if (input[i_row][i_column] == 'E')
+				else if (input[i_row + map_start][i_column] == 'E')
 					screen->player.angle = 0.0;
-				else if (input[i_row][i_column] == 'S')
+				else if (input[i_row + map_start][i_column] == 'S')
 					screen->player.angle = 90.0;
-				else if (input[i_row][i_column] == 'W')
+				else if (input[i_row + map_start][i_column] == 'W')
 					screen->player.angle = 180.0;
 				screen->player.dx = cos(screen->player.angle * M_PI / 180) * 5;
 				screen->player.dy = sin(screen->player.angle * M_PI / 180) * 5;

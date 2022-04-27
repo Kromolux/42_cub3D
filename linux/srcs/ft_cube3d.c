@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:50:26 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 18:55:00 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/27 12:22:26 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ int	main(int argc, char **argv)
 	ft_copy(cub3d.file, argv[1], 0);
 	mlx_hook(cub3d.window, 17, 0, &ft_engine_destroy, &cub3d);
 	mlx_hook(cub3d.window, 2, (1L << 0), &ft_key, &cub3d);
+	//mlx_hook(cub3d.window, 2, (1L << 0), &ft_key_pressed, &cub3d);
+	//mlx_hook(cub3d.window, 3, (1L << 1), &ft_key_released, &cub3d);
 	mlx_loop_hook(cub3d.mlx, &ft_render_frame, &cub3d);
-	mlx_do_key_autorepeaton(cub3d.mlx);
+	//mlx_do_key_autorepeaton(cub3d.mlx);
+	//mlx_do_sync(cub3d.mlx);
 	mlx_loop(cub3d.mlx);
 }
 

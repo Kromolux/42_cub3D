@@ -6,7 +6,7 @@
 #    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 08:48:00 by rkaufman          #+#    #+#              #
-#    Updated: 2022/04/26 10:01:51 by rkaufman         ###   ########.fr        #
+#    Updated: 2022/04/27 18:26:47 by rkaufman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRCS			:=	ft_cube3d.c \
 					engine/ft_display_info.c \
 					errors/ft_error.c \
 					errors/ft_error1.c \
+					errors/ft_error2.c \
 					errors/ft_error_map.c \
 					map/ft_memory_map.c \
 					engine/ft_geometry.c \
