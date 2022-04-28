@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:46:33 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/27 19:08:19 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:41:01 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	ft_get_rgb_color(char *s)
 	int		green;
 	int		blue;
 
+	while (*s == ' ')
+		s++;
 	rgb = ft_split(s, ',');
 	red = ft_string_to_int(rgb[0]);
 	green = ft_string_to_int(rgb[1]);

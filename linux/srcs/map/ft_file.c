@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:47:01 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/27 12:25:28 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 19:01:35 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ t_map	*ft_read_input_map(char *file)
 	return (output);
 }
 
-static void	ft_init_struct_t_map(t_map *var)
+static void	ft_init_struct_t_map(t_map *map)
 {
-	var->resolution.width = WIDTH;
-	var->resolution.height = HEIGHT;
-	var->offset.x = 100;
-	var->offset.y = 100;
-	var->tile_size = 32;
+	map->tile_size = 32;
+	map->floor_color = -1;
+	map->ceiling_color = -1;
+	map->texture_no = NULL;
+	map->texture_so = NULL;
+	map->texture_we = NULL;
+	map->texture_ea = NULL;
 }
 
 static void	ft_exit_malloc_error(char *s)

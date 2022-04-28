@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 08:50:54 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/27 20:09:19 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:58:24 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@
 # ifndef XK_MINUS
 #  define XK_MINUS 0xffad
 # endif
-# define PI_2 6.283185307179586476925286766559
-# define M_3PI2 4.71238899
-# define M_PI2 1.57079637
-# define DR 0.0174533
 # define DISTANCE 20
 
 typedef enum e_return {
@@ -65,6 +61,8 @@ typedef struct s_data {
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
+	int			width;
+	int			height;
 }				t_data;
 
 typedef struct s_player {
@@ -79,27 +77,28 @@ typedef struct s_player {
 	int			free_d;
 }				t_player;
 
-typedef struct s_engine {
-	void			*mlx;
-	void			*window;
-	t_data			img0;
-	t_data			img1;
-	t_data			*img;
-	char			*file;
-	struct s_map	*screen;
-	struct s_key	key;
-}				t_engine;
-
-typedef struct s_point {
-	int			x;
-	int			y;
-	int			z;
-}				t_point;
-
 typedef struct s_2d_point {
 	int			x;
 	int			y;
 }				t_2d_point;
+
+typedef struct s_engine {
+	void				*mlx;
+	void				*window;
+	struct s_data		img0;
+	struct s_data		img1;
+	struct s_data		*img;
+	char				*file;
+	struct s_map		*screen;
+	struct s_key		key;
+	struct s_data		no_tex;
+	struct s_data		so_tex;
+	struct s_data		we_tex;
+	struct s_data		ea_tex;
+	struct s_2d_point	offset;
+}				t_engine;
+
+
 
 typedef struct s_resolution {
 	int			width;
@@ -113,19 +112,6 @@ typedef struct s_3d_point {
 	int			color;
 }				t_3d_point;
 
-typedef struct s_pivot {
-	int			column;
-	int			row;
-}				t_pivot;
-
-typedef struct s_sin_cos {
-	float		cos_x;
-	float		cos_y;
-	float		cos_z;
-	float		sin_x;
-	float		sin_y;
-	float		sin_z;
-}				t_sin_cos;
 
 typedef struct s_line {
 	t_3d_point		start;
@@ -144,10 +130,6 @@ typedef struct s_line {
 typedef struct s_map {
 	struct s_player		player;
 	char				**map;
-	//struct s_3d_point	**map;
-	//struct s_3d_point	**proj;
-	//int					paralel;
-	//int					colored;
 	int					rows;
 	int					columns;
 	int					map_start;
@@ -157,15 +139,7 @@ typedef struct s_map {
 	char				*texture_so;
 	char				*texture_we;
 	char				*texture_ea;
-	int					zoom;
-	int					zoom_z;
-	struct s_resolution	resolution;
-	struct s_pivot		pivot;
-	struct s_2d_point	offset;
 	int					tile_size;
-	struct s_point		factor;
-	struct s_point		angle;
-	struct s_point		movement;
 }				t_map;
 
 typedef struct s_algo {
@@ -239,7 +213,7 @@ void			ft_draw_rectangle(t_engine *engine, t_line rectangle);
 void			ft_draw_line(t_engine *engine, t_line line);
 void			ft_line_preparations(t_line *line);
 void			ft_draw_line_edge_case(t_engine *engine, t_line line);
-int				ft_at_least_one_point_on_screen(t_engine *engine, t_line *line);
+int				ft_at_least_one_point_on_screen(t_line *line);
 
 //ft_lines1.c
 void			ft_draw_line_algorythm(t_engine *engine, t_line line);
@@ -248,6 +222,7 @@ void			ft_draw_line_algorythm(t_engine *engine, t_line line);
 void			ft_put_pixel(t_data *data, int x, int y, int color);
 void			ft_get_point(t_engine *engine, int row, int column,
 					t_3d_point *point);
+int				ft_get_pixel(t_data *data, int x, int y);
 
 //ft_color.c
 int				ft_get_color(t_line *line);
@@ -264,12 +239,7 @@ double			ft_fix_angle(double a);
 double			ft_deg_to_rad(double d);
 
 //ft_rotations.c
-void			ft_rotate_x(t_engine *engine, int i_row, int i_column,
-					t_sin_cos *calcs);
-void			ft_rotate_y(t_engine *engine, int i_row, int i_column,
-					t_sin_cos *calcs);
-void			ft_rotate_z(t_engine *engine, int i_row, int i_column,
-					t_sin_cos *calcs);
+
 
 //ft_key0.c
 int				ft_key(int keycode, t_engine *engine);
@@ -277,7 +247,7 @@ void			ft_key_projection_change(int keycode, t_engine *engine);
 void			ft_key_player_movement(int keycode, t_engine *engine);
 void			ft_key_player_move(t_engine *engine);
 void			ft_key_player_rotation(int key, t_engine *engine);
-void			ft_key_zoom(int keycode, t_engine *engine);
+
 int				ft_key_pressed(int keycode, t_engine *engine);
 int				ft_key_released(int keycode, t_engine *engine);
 void			ft_key_player_rotate_pressed(int keycode, t_engine *engine);
@@ -286,13 +256,12 @@ void			ft_key_player_rotate(t_engine *engine);
 void	ft_key_player_move_pressed(int keycode, t_engine *engine);
 void	ft_key_player_move_released(int keycode, t_engine *engine);
 //ft_key1.c
-void			ft_key_center_view(int keycode, t_engine *engine);
+
 
 //ft_grafic.c
 int				ft_render_frame(t_engine *engine);
 void			ft_clear_image(t_engine *engine);
 void			ft_draw_map(t_engine *engine);
-void			ft_draw_camera(t_engine *engine);
 
 //ft_display_info.c
 void			ft_display_info(t_engine *engine);

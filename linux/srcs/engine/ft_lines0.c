@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:45:56 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 09:45:57 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:54:10 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ft_draw_line(t_engine *engine, t_line line)
 {
-	if (!ft_at_least_one_point_on_screen(engine, &line))
+	if (!ft_at_least_one_point_on_screen(&line))
 		return ;
 	ft_line_preparations(&line);
 	line.pos.x = line.start.x;
@@ -30,14 +30,12 @@ void	ft_draw_line(t_engine *engine, t_line line)
 		ft_draw_line_algorythm(engine, line);
 }
 
-int	ft_at_least_one_point_on_screen(t_engine *engine, t_line *line)
+int	ft_at_least_one_point_on_screen(t_line *line)
 {
-	if ((line->start.x >= 0 && line->start.x < engine->screen->resolution.width)
-		|| (line->start.y >= 0 && line->start.y
-			< engine->screen->resolution.height)
-		|| (line->end.x >= 0 && line->end.x < engine->screen->resolution.width)
-		|| (line->end.y >= 0 && line->end.y
-			< engine->screen->resolution.height))
+	if ((line->start.x >= 0 && line->start.x < WIDTH)
+		|| (line->start.y >= 0 && line->start.y < HEIGHT)
+		|| (line->end.x >= 0 && line->end.x < WIDTH)
+		|| (line->end.y >= 0 && line->end.y < HEIGHT))
 		return (1);
 	return (0);
 }

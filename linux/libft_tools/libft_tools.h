@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 13:12:52 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 18:33:02 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 11:36:47 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ size_t	ft_replace_in_string(char *s, char c_replace, char c_with);
 char	*ft_get_substring(char const *s, size_t start, size_t len);
 char	**ft_split(char const *s, const char c);
 char	*ft_string_dup(const char *s);
+char	*ft_string_dup_skip_white(const char *s);
 
 //string copy all size == 0 || number of size
 size_t	ft_copy(char *dst, char *src, size_t size);
@@ -56,5 +57,8 @@ char	*ft_get_next_line(int fd);
 
 //reading from a file descriptor till EOF
 char	*ft_read_file(int fd);
+
+//mem
+void	*ft_memset(void *s, int c, size_t n);
 
 #endif

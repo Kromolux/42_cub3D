@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:47:16 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/27 20:09:47 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:51:43 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,7 @@ static void	ft_assign_map_values(t_map *screen, char **string_array);
 void	ft_create_map_array(char *input, t_map *screen)
 {
 	char	**string_array;
-	//int		size;
 
-	//screen->rows = ft_count_of_in_str(input, '\n') + 1;
-	//screen->columns = ft_count_of_columns(input, '\n');
-	screen->floor_color = -1;
-	screen->ceiling_color = -1;
-	screen->texture_no = NULL;
-	screen->texture_so = NULL;
-	screen->texture_we = NULL;
-	screen->texture_ea = NULL;
-	//ft_replace_in_string(input, '\n', ' ');
 	string_array = ft_split(input, '\n');
 	if (!string_array)
 		ft_error_split(screen, input);

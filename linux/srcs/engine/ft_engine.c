@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:46:14 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 09:46:16 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 17:53:48 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,28 @@ void	ft_engine_init(t_engine *engine)
 		ft_error_engine_init("mlx_get_data_addr", "engine->img1.addr",
 			engine, 5);
 	engine->img = &engine->img0;
+	engine->no_tex.img = mlx_xpm_file_to_image(engine->mlx, engine->screen->texture_no,
+		&engine->no_tex.width, &engine->no_tex.height);
+	engine->no_tex.addr = mlx_get_data_addr(engine->no_tex.img, &engine->no_tex.bits_per_pixel,
+		&engine->no_tex.line_length, &engine->no_tex.endian);
+
+	engine->we_tex.img = mlx_xpm_file_to_image(engine->mlx, engine->screen->texture_we,
+		&engine->we_tex.width, &engine->we_tex.height);
+	engine->we_tex.addr = mlx_get_data_addr(engine->we_tex.img, &engine->we_tex.bits_per_pixel,
+		&engine->we_tex.line_length, &engine->we_tex.endian);
+
+	engine->ea_tex.img = mlx_xpm_file_to_image(engine->mlx, engine->screen->texture_ea,
+		&engine->ea_tex.width, &engine->ea_tex.height);
+	engine->ea_tex.addr = mlx_get_data_addr(engine->ea_tex.img, &engine->ea_tex.bits_per_pixel,
+		&engine->ea_tex.line_length, &engine->ea_tex.endian);
 }
 
 int	ft_engine_destroy(t_engine *engine)
 {
 	mlx_destroy_image(engine->mlx, engine->img0.img);
 	mlx_destroy_image(engine->mlx, engine->img1.img);
+	mlx_destroy_image(engine->mlx, engine->no_tex.img);
+	mlx_destroy_image(engine->mlx, engine->we_tex.img);
 	mlx_destroy_window(engine->mlx, engine->window);
 	mlx_destroy_display(engine->mlx);
 	free(engine->mlx);

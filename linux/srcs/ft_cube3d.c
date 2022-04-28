@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:50:26 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/27 12:22:26 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 19:03:19 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,11 @@ int	main(int argc, char **argv)
 		write(1, "\n", 1);
 		y++;
 	}
-	
 	//exit(1);
 	ft_engine_init(&cub3d);
 	cub3d.file = (char *) malloc(ft_strlen(argv[1]) + 1);
 	if (!cub3d.file)
-	return (ft_error_malloc("main", "cub.file", ft_strlen(argv[1]) + 1));
+		return (ft_error_malloc("main", "cub.file", ft_strlen(argv[1]) + 1));
 	ft_copy(cub3d.file, argv[1], 0);
 	mlx_hook(cub3d.window, 17, 0, &ft_engine_destroy, &cub3d);
 	mlx_hook(cub3d.window, 2, (1L << 0), &ft_key, &cub3d);
@@ -57,16 +56,12 @@ static void	ft_init_cub3d(t_engine *engine)
 {
 	engine->mlx = NULL;
 	engine->window = NULL;
-	engine->img0.img = NULL;
-	engine->img0.addr = NULL;
-	engine->img0.bits_per_pixel = 0;
-	engine->img0.line_length = 0;
-	engine->img0.endian = 0;
-	engine->img1.img = NULL;
-	engine->img1.addr = NULL;
-	engine->img1.bits_per_pixel = 0;
-	engine->img1.line_length = 0;
-	engine->img1.endian = 0;
+	ft_memset((void *) &engine->img0, '\0', sizeof(engine->img0));
+	ft_memset((void *) &engine->img1, '\0', sizeof(engine->img1));
+	ft_memset((void *) &engine->no_tex, '\0', sizeof(engine->no_tex));
+	ft_memset((void *) &engine->no_tex, '\0', sizeof(engine->so_tex));
+	ft_memset((void *) &engine->no_tex, '\0', sizeof(engine->we_tex));
+	ft_memset((void *) &engine->no_tex, '\0', sizeof(engine->ea_tex));
 	engine->img = NULL;
 	engine->file = NULL;
 	engine->screen = NULL;

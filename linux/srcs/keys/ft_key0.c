@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:45:01 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/27 17:00:47 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:54:38 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,6 @@ int	ft_key_released(int keycode, t_engine *engine)
 	return (0);
 }
 
-void	ft_key_center_view(int keycode, t_engine *engine)
-{
-	if (keycode == XK_Home)
-	{
-		engine->screen->movement.x = 0;
-		engine->screen->movement.y = 0;
-		engine->screen->movement.z = 0;
-	}
-}
 
 void	ft_key_projection_change(int keycode, t_engine *engine)
 {

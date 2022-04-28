@@ -6,7 +6,7 @@
 #    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/24 15:24:04 by rkaufman          #+#    #+#              #
-#    Updated: 2022/04/25 13:32:43 by rkaufman         ###   ########.fr        #
+#    Updated: 2022/04/28 11:19:05 by rkaufman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCFILES 	:=	ft_char_first.c \
 				ft_string_to_hex.c \
 				ft_words_in_str.c \
 				ft_calloc.c \
-				ft_check_hex.c
+				ft_check_hex.c \
+				ft_mem.c
 
 OBJFILES	:= $(SRCFILES:%.c=%.o)
 

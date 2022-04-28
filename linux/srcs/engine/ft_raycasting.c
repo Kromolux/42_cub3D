@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:01:29 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/27 20:09:55 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 17:54:15 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_draw_3d_ray(t_engine *engine)
 	double rx,ry,ra,xo,yo, atan;
 	double hx, hy, dist_h;
 	double vx, vy, dist_v;
+	int		color;
+	int		i_line;
 	//int		dx, dy;
 	double	dist_t;
 	double ntan;
@@ -31,14 +33,14 @@ void	ft_draw_3d_ray(t_engine *engine)
 
 	line.start.x = 0;
 	line.start.y = 500;
-	line.end.x = 300;
+	line.end.x = 601;
 	line.end.y = 660;
 	line.start.color = engine->screen->ceiling_color;
 	line.end.color = engine->screen->ceiling_color;
 	ft_draw_rectangle_full(engine, line);
 	line.start.x = 0;
 	line.start.y = 661;
-	line.end.x = 300;
+	line.end.x = 601;
 	line.end.y = 820;
 	line.start.color = engine->screen->floor_color;
 	line.end.color = engine->screen->floor_color;
@@ -232,31 +234,57 @@ void	ft_draw_3d_ray(t_engine *engine)
 	dist_t = dist_t * cos(ft_deg_to_rad(ca));
 	//printf("%i dist_t = %lf rx=%lf ry=%lf ca=%lf ca in rad=%lf\n", i, dist_t, rx, ry, ca, ft_deg_to_rad(ca));
 	line_h = (engine->screen->tile_size * 320.0) / dist_t;
+	double line_step = engine->no_tex.height / line_h;
+	double line_off = 0;
 	if (line_h > 320)
+	{
+		line_off = ((line_h - 320.0) / 2.0);
 		line_h = 320;
+		//printf("line_off = %lf\n", line_off);
+	}
+
 	//if (dist_t >= 240)
 	//	line_h = 0;
 	double line_o = 660 - line_h / 2.0;
+	double tx;
+	t_data	*texture;
 	line.start.x = 0 + i;
 	line.start.y = line_o;
 	line.end.x = 0 + i;
 	line.end.y = line_o + line_h;
+	//texture = NULL;
 	if (dist_v < dist_h)
 	{
 		line.start.color = 0x00AAAAAA;
 		line.end.color = 0x00AAAAAA;
+		tx = ry;
+		//texture = &engine->we_tex;
+		texture = &engine->ea_tex;
 	}
 	else if (dist_h < dist_v)
 	{
 		line.start.color = 0x00777777;
 		line.end.color = 0x00777777;
+		tx = rx;
+		texture = &engine->no_tex;
 	}
 	else
 	{
 		line.start.color = 0x00000000;
 		line.end.color = 0x00000000;
+		tx = rx;
+		texture = &engine->no_tex;
 	}
-	ft_draw_rectangle_full(engine, line);
+	//ft_draw_rectangle_full(engine, line);
+	i_line = 0;
+	double ty = line_off * line_step;
+	while (i_line <= line_h)
+	{
+		color = ft_get_pixel(texture, (int) (tx * 2.0) % 64, (int) (ty + line_step * i_line));
+		ft_put_pixel(engine->img, line.start.x + i, line.start.y + i_line, color);
+		ft_put_pixel(engine->img, line.start.x + 1 + i, line.start.y + i_line, color);
+		i_line++;
+	}
 
 	//ft_draw_line(engine, line);
 	i++;

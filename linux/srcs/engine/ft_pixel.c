@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:48:31 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 11:23:40 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 12:19:50 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,23 @@ void	ft_put_pixel(t_data *data, int x, int y, int color)
 
 	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
-		dst = data->addr
+		dst = (char *) data->addr
 			+ (y * data->line_length + x * (data->bits_per_pixel / 8));
 		*(unsigned int *) dst = color;
 	}
+}
+
+int	ft_get_pixel(t_data *data, int x, int y)
+{
+	char	*dst;
+
+	if (x >= 0 && x < data->width && y >= 0 && y < data->height)
+	{
+		dst = (char *) data->addr
+			+ (y * data->line_length + x * (data->bits_per_pixel / 8));
+		return (*(unsigned int *) dst);
+	}
+	return (0);
 }
 
 void	ft_get_point(t_engine *engine, int row, int column, t_3d_point *point)

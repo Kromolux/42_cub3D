@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 08:41:40 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/27 17:02:17 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 19:06:18 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	ft_draw_player(t_engine *engine)
 		engine->screen->player.free_w = 1;
 
 
-	line.end.x = engine->screen->player.x - engine->screen->player.dx * 1;
-	line.end.y = engine->screen->player.y - engine->screen->player.dy * 1;
+	line.end.x = engine->screen->player.x - engine->screen->player.dx * 2;
+	line.end.y = engine->screen->player.y - engine->screen->player.dy * 2;
 	ft_draw_line(engine, line);
 	mx = (int) line.end.x / (engine->screen->tile_size);
 	my = (int) line.end.y / (engine->screen->tile_size);
@@ -52,8 +52,8 @@ void	ft_draw_player(t_engine *engine)
 	
 	sx = cos(ft_deg_to_rad(engine->screen->player.angle - 90)) * 5;
 	sy = sin(ft_deg_to_rad(engine->screen->player.angle - 90)) * 5;
-	line.end.x = engine->screen->player.x + sx * 1;
-	line.end.y = engine->screen->player.y + sy * 1;
+	line.end.x = engine->screen->player.x + sx * 2;
+	line.end.y = engine->screen->player.y + sy * 2;
 	ft_draw_line(engine, line);
 	mx = (int) line.end.x / (engine->screen->tile_size);
 	my = (int) line.end.y / (engine->screen->tile_size);
@@ -62,8 +62,8 @@ void	ft_draw_player(t_engine *engine)
 	else
 		engine->screen->player.free_a = 1;
 
-	line.end.x = engine->screen->player.x - sx * 1;
-	line.end.y = engine->screen->player.y - sy * 1;
+	line.end.x = engine->screen->player.x - sx * 2;
+	line.end.y = engine->screen->player.y - sy * 2;
 	ft_draw_line(engine, line);
 	mx = (int) line.end.x / (engine->screen->tile_size);
 	my = (int) line.end.y / (engine->screen->tile_size);

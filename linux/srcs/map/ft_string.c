@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:49:54 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/27 20:09:32 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:59:02 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,23 @@ void	ft_check_input_exit_on_error(t_map *screen, char **input)
 	i_row = 0;
 	while (input[i_row])
 	{
-		if (ft_strlen(input[i_row]) >= 1)
-		{
-			if (ft_strncmp(input[i_row], "F ", 2) == 0 && screen->floor_color == -1)
-				screen->floor_color = ft_get_rgb_color(&input[i_row][2]);
-			else if (ft_strncmp(input[i_row], "C ", 2) == 0 && screen->ceiling_color == -1)
-				screen->ceiling_color = ft_get_rgb_color(&input[i_row][2]);
-			else if (ft_strncmp(input[i_row], "NO ", 3) == 0 && screen->texture_no == NULL)
-				screen->texture_no = ft_string_dup(&input[i_row][3]);
-			else if (ft_strncmp(input[i_row], "SO ", 3) == 0 && screen->texture_so == NULL)
-				screen->texture_so = ft_string_dup(&input[i_row][3]);
-			else if (ft_strncmp(input[i_row], "WE ", 3) == 0 && screen->texture_we == NULL)
-				screen->texture_we = ft_string_dup(&input[i_row][3]);
-			else if (ft_strncmp(input[i_row], "EA ", 3) == 0 && screen->texture_ea == NULL)
-				screen->texture_ea = ft_string_dup(&input[i_row][3]);
-			else
-				exit(ft_error_map_file(input[i_row], i_row));
-		}
+		i_column = 0;
+		while (input[i_row][i_column] == ' ')
+			i_column++;
+		if (ft_strncmp(&input[i_row][i_column], "F ", 2) == 0 && screen->floor_color == -1)
+			screen->floor_color = ft_get_rgb_color(&input[i_row][i_column + 2]);
+		else if (ft_strncmp(&input[i_row][i_column], "C ", 2) == 0 && screen->ceiling_color == -1)
+			screen->ceiling_color = ft_get_rgb_color(&input[i_row][i_column + 2]);
+		else if (ft_strncmp(&input[i_row][i_column], "NO ", 3) == 0 && screen->texture_no == NULL)
+			screen->texture_no = ft_string_dup_skip_white(&input[i_row][i_column + 3]);
+		else if (ft_strncmp(&input[i_row][i_column], "SO ", 3) == 0 && screen->texture_so == NULL)
+			screen->texture_so = ft_string_dup_skip_white(&input[i_row][i_column + 3]);
+		else if (ft_strncmp(&input[i_row][i_column], "WE ", 3) == 0 && screen->texture_we == NULL)
+			screen->texture_we = ft_string_dup_skip_white(&input[i_row][i_column + 3]);
+		else if (ft_strncmp(&input[i_row][i_column], "EA ", 3) == 0 && screen->texture_ea == NULL)
+			screen->texture_ea = ft_string_dup_skip_white(&input[i_row][i_column + 3]);
+		else
+			exit(ft_error_map_file(input[i_row], i_row));
 		i_row++;
 		if (ft_check_map_identifier(screen) == RETURN_SUCCESS)
 			break ;
@@ -135,8 +135,8 @@ void	ft_check_input_exit_on_error(t_map *screen, char **input)
 				player++;
 				if (player > 1)
 					exit(ft_error_player(input[i_row + map_start][i_column], i_row + 1 + map_start, i_column + 1));
-				screen->player.x = i_column * screen->tile_size + (screen->tile_size / 2.0);
-				screen->player.y = i_row * screen->tile_size + (screen->tile_size / 2.0);
+				screen->player.x = i_column * screen->tile_size + ((screen->tile_size - 1) / 2.0);
+				screen->player.y = i_row * screen->tile_size + ((screen->tile_size - 1) / 2.0);
 				if (input[i_row + map_start][i_column] == 'N')
 					screen->player.angle = 270.0;
 				else if (input[i_row + map_start][i_column] == 'E')
