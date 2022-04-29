@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:47:16 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/28 18:51:43 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/29 14:16:54 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,13 @@ void	ft_create_map_array(char *input, t_map *screen)
 	if (!string_array)
 		ft_error_split(screen, input);
 	free(input);
-	//size = 0;
-	//while (string_array[size])
-	//	size++;
-	//if (size != screen->rows)
-	//	ft_error_input(screen, string_array);
 	ft_check_input_exit_on_error(screen, string_array);
 	ft_allocate_mem_map(screen, string_array);
 	ft_assign_map_values(screen, string_array);
+	ft_check_map_exit_on_error(screen);
 }
 
-static void	ft_assign_map_values(t_map *screen, char **string_array)
+static void	ft_assign_map_values(t_map *screen, char **input)
 {
 	int	i_row;
 	int	i_column;
@@ -41,17 +37,17 @@ static void	ft_assign_map_values(t_map *screen, char **string_array)
 	while (i_row < screen->rows)
 	{
 		i_column = 0;
-		while (i_column < screen->columns && string_array[screen->map_start + i_row][i_column])
+		while (i_column < screen->columns && input[screen->map_start + i_row][i_column])
 		{
-			screen->map[i_row][i_column] = string_array[screen->map_start + i_row][i_column];
+			screen->map[i_row][i_column] = input[screen->map_start + i_row][i_column];
 			i_column++;
 		}
 		i_row++;
 	}
-	ft_free_char_array(string_array);
+	ft_free_char_array(input);
 }
 
-int	ft_check_map_identifier(t_map *screen)
+int	ft_check_all_map_identifier(t_map *screen)
 {
 	if (screen->floor_color > -1
 		&& screen->ceiling_color > -1

@@ -1,10 +1,10 @@
 
-NO      ./textures/wall-N.xpm
+NO      ./textures/wall-NO.xpm
 
-SO ./path_to_the_south_texture
+SO ./textures/wall-SO.xpm
 
 
-WE ./textures/wall-W-E.xpm
+WE ./textures/wall-WE.xpm
 
     F      151,150,100
 

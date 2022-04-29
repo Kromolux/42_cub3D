@@ -6,13 +6,14 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:50:26 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/28 19:03:19 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/29 13:21:35 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube3d.h"
 
 static void	ft_init_cub3d(t_engine *engine);
+static void	ft_print_map_to_terminal(t_map *map);
 
 int	main(int argc, char **argv)
 {
@@ -22,21 +23,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (ft_error_arguments());
 	cub3d.screen = ft_read_input_map(argv[1]);
-	ft_printf("created map for cub3D with rows=%i columns=%i\n", cub3d.screen->rows, cub3d.screen->columns);
-	int	y = 0;
-	int x = 0;
-	while (y < cub3d.screen->rows)
-	{
-		x = 0;
-		while (x < cub3d.screen->columns)
-		{
-			write(1, &cub3d.screen->map[y][x], 1);
-			x++;
-		}
-		write(1, "\n", 1);
-		y++;
-	}
-	//exit(1);
+	ft_print_map_to_terminal(cub3d.screen);
 	ft_engine_init(&cub3d);
 	cub3d.file = (char *) malloc(ft_strlen(argv[1]) + 1);
 	if (!cub3d.file)
@@ -65,4 +52,27 @@ static void	ft_init_cub3d(t_engine *engine)
 	engine->img = NULL;
 	engine->file = NULL;
 	engine->screen = NULL;
+	engine->offset.x = 0;
+	engine->offset.y = 500;
+	engine->max_line_h = 320;
+}
+
+static void	ft_print_map_to_terminal(t_map *map)
+{
+	int	y;
+	int x;
+
+	ft_printf("created map for cub3D with rows=%i columns=%i\n", map->rows, map->columns);
+	y = 0;
+	while (y < map->rows)
+	{
+		x = 0;
+		while (x < map->columns)
+		{
+			write(1, &map->map[y][x], 1);
+			x++;
+		}
+		write(1, "\n", 1);
+		y++;
+	}
 }

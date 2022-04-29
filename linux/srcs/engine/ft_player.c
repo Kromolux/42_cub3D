@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 08:41:40 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/28 19:06:18 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/29 13:52:43 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	ft_draw_player(t_engine *engine)
 	double	sx;
 	double	sy;
 
-	line.start.color = 0x00FFFF00;
-	line.end.color = 0x00FFFF00;
+	ft_set_line_color(&line, 0x00FFFF00);
 	line.start.x = engine->screen->player.x - 1;
 	line.start.y = engine->screen->player.y - 1;
 	line.end.x = engine->screen->player.x + 1;

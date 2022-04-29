@@ -6,7 +6,7 @@
 #    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 08:48:00 by rkaufman          #+#    #+#              #
-#    Updated: 2022/04/27 18:26:47 by rkaufman         ###   ########.fr        #
+#    Updated: 2022/04/29 14:41:17 by rkaufman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +38,15 @@ SRCS			:=	ft_cube3d.c \
 					engine/ft_rotations.c \
 					engine/ft_pixel.c \
 					engine/ft_player.c \
+					engine/ft_horizontal_ray.c \
+					engine/ft_vertical_ray.c \
+					engine/ft_background.c \
 					keys/ft_key0.c \
 					keys/ft_key1.c \
 					map/ft_file.c \
 					map/ft_string.c \
 					map/ft_map_array.c \
+					map/ft_overview.c \
 					engine/ft_grafic.c \
 					engine/ft_display_info.c \
 					errors/ft_error.c \
@@ -87,13 +91,14 @@ re: fclean all
 	make -C $(LIBFT_TOOLS_PATH) re
 	make -C $(LIBFT_PRINTF_PATH) re
 
-norminette:
-	cd srcs norminette -R CheckForbiddenSourceHeader $(SRCS)
+norm:
+	cd srcs && norminette -R CheckForbiddenSourceHeader $(SRCS)
 	norminette -R CheckForbiddenSourceHeader $(HEADERFILE)
 	make -C $(LIBFT_TOOLS_PATH) norminette
 	make -C $(LIBFT_PRINTF_PATH) norminette
 
 val:
-	valgrind --leak-check=full -s ./$(NAME)
+	clear
+	valgrind --leak-check=full -s ./$(NAME) test_maps/test.cub | cat -e
 
 .PHONY: clean fclean re

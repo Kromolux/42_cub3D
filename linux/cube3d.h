@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 08:50:54 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/28 18:58:24 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:46:12 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 #  define XK_MINUS 0xffad
 # endif
 # define DISTANCE 20
+# define FOV	60.0
 
 typedef enum e_return {
 	RETURN_ERROR = -1,
@@ -96,9 +97,8 @@ typedef struct s_engine {
 	struct s_data		we_tex;
 	struct s_data		ea_tex;
 	struct s_2d_point	offset;
+	int					max_line_h;
 }				t_engine;
-
-
 
 typedef struct s_resolution {
 	int			width;
@@ -111,7 +111,6 @@ typedef struct s_3d_point {
 	int			z;
 	int			color;
 }				t_3d_point;
-
 
 typedef struct s_line {
 	t_3d_point		start;
@@ -150,6 +149,44 @@ typedef struct s_algo {
 	int			*primary_end;
 }				t_algo;
 
+typedef struct s_ray_hit {
+	double		x;
+	double		y;
+	double		dist;
+}				t_ray_hit;
+
+typedef struct s_ray {
+	double		angle;
+	double		x;
+	double		y;
+	double		step_x;
+	double		step_y;
+	double		dist;
+	int			step_dist;
+	int			map_x;
+	int			map_y;
+	struct s_ray_hit	hori;
+	struct s_ray_hit	vert;
+}				t_ray;
+
+typedef struct s_3d_line_calc {
+	double			angle;
+	double			line_h;
+	double			line_step;
+	double			line_off;
+	double			line_o;
+	double			tx;
+	double			ty;
+	struct s_data	*texture;
+}				t_3d_line_calc;
+
+typedef struct s_3d_data {
+	struct s_ray			ray;
+	struct s_3d_line_calc	cam;
+	struct s_line			line;
+	int						i;
+}				t_3d_data;
+
 //ft_error.c
 int				ft_error_arguments(void);
 int				ft_error_malloc(char *function, char *variable, size_t size);
@@ -181,6 +218,11 @@ void			ft_error_proj_row(t_map *screen, char **string_array,
 //ft_memory_map.c
 void			ft_allocate_mem_map(t_map *screen, char **string_array);
 void			ft_free_map(t_map *screen);
+void			ft_check_map_exit_on_error(t_map *map);
+void			ft_player_on_map(t_map *map, int i_row, int i_column, int *player);
+void			ft_check_map_borders(t_map *map);
+void			ft_check_map_open(t_map *map);
+void			ft_check_for_player_on_map(t_map *map);
 
 //ft_engine.c
 void			ft_engine_init(t_engine *engine);
@@ -190,9 +232,10 @@ int				ft_engine_destroy(t_engine *engine);
 size_t			ft_count_of_columns(char *s, char c);
 void			ft_check_input_exit_on_error(t_map *screen, char **input);
 int				ft_valid_number(char *argv);
-int				ft_empty_space(char c);
 int				ft_check_around(char **input, int row, int column);
 int				ft_is_player(char c);
+int				ft_is_empty_space(char c);
+int				ft_check_identifiers_in_file(t_map *map, char **input);
 
 //ft_file.c
 t_map			*ft_read_input_map(char *file);
@@ -201,7 +244,7 @@ t_map			*ft_read_input_map(char *file);
 void			ft_create_map_array(char *input, t_map *screen);
 void			ft_get_point(t_engine *engine, int row, int column,
 					t_3d_point *point);
-int				ft_check_map_identifier(t_map *screen);
+int				ft_check_all_map_identifier(t_map *screen);
 size_t			ft_get_map_columns(char **input);
 
 //ft_geometry.c
@@ -217,6 +260,7 @@ int				ft_at_least_one_point_on_screen(t_line *line);
 
 //ft_lines1.c
 void			ft_draw_line_algorythm(t_engine *engine, t_line line);
+void			ft_set_line_color(t_line *line, int color);
 
 //ft_pixel.c
 void			ft_put_pixel(t_data *data, int x, int y, int color);
@@ -253,14 +297,17 @@ int				ft_key_released(int keycode, t_engine *engine);
 void			ft_key_player_rotate_pressed(int keycode, t_engine *engine);
 void			ft_key_player_rotate_released(int keycode, t_engine *engine);
 void			ft_key_player_rotate(t_engine *engine);
-void	ft_key_player_move_pressed(int keycode, t_engine *engine);
-void	ft_key_player_move_released(int keycode, t_engine *engine);
+void			ft_key_player_move_pressed(int keycode, t_engine *engine);
+void			ft_key_player_move_released(int keycode, t_engine *engine);
+
 //ft_key1.c
 
 
 //ft_grafic.c
 int				ft_render_frame(t_engine *engine);
 void			ft_clear_image(t_engine *engine);
+
+//ft_overview.c
 void			ft_draw_map(t_engine *engine);
 
 //ft_display_info.c
@@ -271,5 +318,14 @@ void			ft_draw_player(t_engine *engine);
 
 //ft_raycasting.c
 void			ft_draw_3d_ray(t_engine *engine);
+
+//ft_horizontal_ray.c
+void			ft_cast_horizontal_ray(t_engine *engine, t_ray *ray);
+
+//ft_vertical_ray.c
+void			ft_cast_vertical_ray(t_engine *engine, t_ray *ray);
+
+//ft_background.c
+void			ft_draw_background(t_engine *engine);
 
 #endif

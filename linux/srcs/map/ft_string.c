@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:49:54 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/28 18:59:02 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/29 14:29:33 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,118 +42,59 @@ size_t	ft_count_of_columns(char *s, char c)
 
 void	ft_check_input_exit_on_error(t_map *screen, char **input)
 {
-	int	i_row;
-	int	i_column;
-	int	map_start;
+	int	i_r;
 
-	i_row = 0;
-	while (input[i_row])
+	i_r = ft_check_identifiers_in_file(screen, input);
+	while (ft_strlen(input[i_r]) == 0)
+		i_r++;
+	screen->map_start = i_r;
+	while (input[i_r])
+		i_r++;
+	screen->rows = i_r - screen->map_start;
+	screen->columns = ft_get_map_columns(&input[screen->map_start]);
+	i_r = 0;
+	while (i_r < screen->rows)
 	{
-		i_column = 0;
-		while (input[i_row][i_column] == ' ')
-			i_column++;
-		if (ft_strncmp(&input[i_row][i_column], "F ", 2) == 0 && screen->floor_color == -1)
-			screen->floor_color = ft_get_rgb_color(&input[i_row][i_column + 2]);
-		else if (ft_strncmp(&input[i_row][i_column], "C ", 2) == 0 && screen->ceiling_color == -1)
-			screen->ceiling_color = ft_get_rgb_color(&input[i_row][i_column + 2]);
-		else if (ft_strncmp(&input[i_row][i_column], "NO ", 3) == 0 && screen->texture_no == NULL)
-			screen->texture_no = ft_string_dup_skip_white(&input[i_row][i_column + 3]);
-		else if (ft_strncmp(&input[i_row][i_column], "SO ", 3) == 0 && screen->texture_so == NULL)
-			screen->texture_so = ft_string_dup_skip_white(&input[i_row][i_column + 3]);
-		else if (ft_strncmp(&input[i_row][i_column], "WE ", 3) == 0 && screen->texture_we == NULL)
-			screen->texture_we = ft_string_dup_skip_white(&input[i_row][i_column + 3]);
-		else if (ft_strncmp(&input[i_row][i_column], "EA ", 3) == 0 && screen->texture_ea == NULL)
-			screen->texture_ea = ft_string_dup_skip_white(&input[i_row][i_column + 3]);
-		else
-			exit(ft_error_map_file(input[i_row], i_row));
-		i_row++;
-		if (ft_check_map_identifier(screen) == RETURN_SUCCESS)
-			break ;
-	}
-	while (ft_strlen(input[i_row]) == 0)
-		i_row++;
-	map_start = i_row;
-	screen->map_start = map_start;
-	while (input[i_row])
-		i_row++;
-	
-	screen->rows = i_row - map_start;
-	screen->columns = ft_get_map_columns(&input[map_start]);
-
-	i_row = 0;
-	while (i_row < screen->rows)
-	{
-		if (ft_valid_char(input[i_row + map_start], i_row + map_start) == RETURN_ERROR)
+		if (ft_valid_char(input[i_r + screen->map_start], i_r + screen->map_start) == RETURN_ERROR)
 		{
 			free(screen);
 			ft_free_char_array(input);
 			exit(RETURN_ERROR);
 		}
-		i_row++;
+		i_r++;
 	}
-	i_row = 0; //free mem at error!
-	while (i_row < screen->rows)
+}
+
+int	ft_check_identifiers_in_file(t_map *map, char **input)
+{
+	int	i_r;
+	int	i_c;
+
+	i_r = 0;
+	while (input[i_r])
 	{
-		if (ft_empty_space(input[i_row + map_start][0]) == RETURN_ERROR)
-			exit(ft_error_border(input[i_row + map_start][0], i_row, 0));
-		else if (ft_empty_space(input[i_row + map_start][screen->columns - 1]) == RETURN_ERROR)
-			exit(ft_error_border(input[i_row + map_start][screen->columns], i_row, screen->columns));
-		i_row++;
+		i_c = 0;
+		while (input[i_r][i_c] == ' ')
+			i_c++;
+		if (ft_strncmp(&input[i_r][i_c], "F ", 2) == 0 && map->floor_color == -1)
+			map->floor_color = ft_get_rgb_color(&input[i_r][i_c + 2]);
+		else if (ft_strncmp(&input[i_r][i_c], "C ", 2) == 0 && map->ceiling_color == -1)
+			map->ceiling_color = ft_get_rgb_color(&input[i_r][i_c + 2]);
+		else if (ft_strncmp(&input[i_r][i_c], "NO ", 3) == 0 && !map->texture_no)
+			map->texture_no = ft_string_dup_skip_white(&input[i_r][i_c + 3]);
+		else if (ft_strncmp(&input[i_r][i_c], "SO ", 3) == 0 && !map->texture_so)
+			map->texture_so = ft_string_dup_skip_white(&input[i_r][i_c + 3]);
+		else if (ft_strncmp(&input[i_r][i_c], "WE ", 3) == 0 && !map->texture_we)
+			map->texture_we = ft_string_dup_skip_white(&input[i_r][i_c + 3]);
+		else if (ft_strncmp(&input[i_r][i_c], "EA ", 3) == 0 && !map->texture_ea)
+			map->texture_ea = ft_string_dup_skip_white(&input[i_r][i_c + 3]);
+		else
+			exit(ft_error_map_file(input[i_r], i_r));
+		i_r++;
+		if (ft_check_all_map_identifier(map) == RETURN_SUCCESS)
+			break ;
 	}
-	i_column = 0;
-	while (i_column < screen->columns)
-	{
-		if (ft_empty_space(input[map_start][i_column]) == RETURN_ERROR)
-			exit(ft_error_border(input[map_start][i_column], map_start, i_column));
-		else if (ft_empty_space(input[screen->rows - 1 + map_start][i_column]) == RETURN_ERROR)
-			exit(ft_error_border(input[screen->rows + map_start][i_column], screen->rows, i_column));
-		i_column++;
-	}
-	i_row = + 1;
-	while (i_row < screen->rows - 1)
-	{
-		i_column = 1;
-		while (i_column < screen->columns - 1)
-		{
-			if (ft_empty_space(input[i_row + map_start][i_column]) == RETURN_ERROR)
-				if (ft_check_around(input, i_row + map_start, i_column) == RETURN_ERROR)
-					exit(ft_error_border(input[i_row + map_start][i_column], i_row + 1, i_column + 1));
-			i_column++;
-		}
-		i_row++;
-	}
-	int	player;
-	player = 0;
-	i_row = 0;
-	while (i_row < screen->rows)
-	{
-		i_column = 0;
-		while (i_column < screen->columns)
-		{
-			if (ft_is_player(input[i_row + map_start][i_column]) == RETURN_TRUE)
-			{
-				player++;
-				if (player > 1)
-					exit(ft_error_player(input[i_row + map_start][i_column], i_row + 1 + map_start, i_column + 1));
-				screen->player.x = i_column * screen->tile_size + ((screen->tile_size - 1) / 2.0);
-				screen->player.y = i_row * screen->tile_size + ((screen->tile_size - 1) / 2.0);
-				if (input[i_row + map_start][i_column] == 'N')
-					screen->player.angle = 270.0;
-				else if (input[i_row + map_start][i_column] == 'E')
-					screen->player.angle = 0.0;
-				else if (input[i_row + map_start][i_column] == 'S')
-					screen->player.angle = 90.0;
-				else if (input[i_row + map_start][i_column] == 'W')
-					screen->player.angle = 180.0;
-				screen->player.dx = cos(screen->player.angle * M_PI / 180) * 5;
-				screen->player.dy = sin(screen->player.angle * M_PI / 180) * 5;
-			}
-			i_column++;
-		}
-		i_row++;
-	}
-	if (player == 0)
-		exit(ft_error_no_player());
+	return (i_r);
 }
 
 int	ft_check_around(char **input, int row, int column)
@@ -170,11 +111,11 @@ int	ft_check_around(char **input, int row, int column)
 	return (RETURN_SUCCESS);
 }
 
-int	ft_empty_space(char c)
+int	ft_is_empty_space(char c)
 {
 	if (c == '0' || c == 'N' || c == 'S' || c == 'W' || c == 'E')
-		return (RETURN_ERROR);
-	return (RETURN_SUCCESS);
+		return (RETURN_TRUE);
+	return (RETURN_FALSE);
 }
 
 int	ft_is_player(char c)
@@ -191,7 +132,8 @@ static int	ft_valid_char(char *argv, int row)
 	i = 0;
 	while (argv[i])
 	{
-		if (argv[i] != '1' && argv[i] != '0' && argv[i] != 'N' && argv[i] != 'S' && argv[i] != 'W' && argv[i] != 'E' && argv[i] != ' ')
+		if (argv[i] != '1' && ft_is_empty_space(argv[i]) != RETURN_TRUE
+			&& argv[i] != ' ')
 			return (ft_error_char(argv[i], row));
 		i++;
 	}

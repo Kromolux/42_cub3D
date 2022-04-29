@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:45:44 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/25 09:45:46 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/04/29 13:51:06 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,10 @@ static void	ft_init_algo_ptr(t_line *line, t_algo *ptr)
 		ptr->secondary_next = &line->x_next;
 		ptr->primary_end = &line->end.y;
 	}
+}
+
+void	ft_set_line_color(t_line *line, int color)
+{
+	line->start.color = color;
+	line->end.color = color;
 }
