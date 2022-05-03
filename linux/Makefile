@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ehosu <ehosu@student.42wolfsburg.de>       +#+  +:+       +#+         #
+#    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 08:48:00 by rkaufman          #+#    #+#              #
-#    Updated: 2022/05/03 11:19:28 by ehosu            ###   ########.fr        #
+#    Updated: 2022/05/03 12:06:27 by rkaufman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -150,6 +150,6 @@ norm:
 
 val:
 	clear
-	valgrind --leak-check=full -s ./$(NAME) test_maps/test.cub | cat -e
+	valgrind --leak-check=full -s ./$(NAME) test_maps/test.cub
 
 .PHONY: clean fclean re

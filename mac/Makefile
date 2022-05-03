@@ -6,7 +6,7 @@
 #    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 08:48:00 by rkaufman          #+#    #+#              #
-#    Updated: 2022/05/03 10:44:21 by rkaufman         ###   ########.fr        #
+#    Updated: 2022/05/03 12:04:07 by rkaufman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,9 +149,9 @@ norm:
 	make -C $(LIBFT_PRINTF_PATH) norminette
 
 val:
-	valgrind --leak-check=full -s ./$(NAME) test_maps/test.cub | cat -e
+	valgrind --leak-check=full -s ./$(NAME) test_maps/test.cub
 
 leaks:
-	leaks --atExit -- ./$(NAME) test_maps/test.cub | cat -e
+	leaks --atExit -- ./$(NAME) test_maps/test.cub
 
 .PHONY: clean fclean re
