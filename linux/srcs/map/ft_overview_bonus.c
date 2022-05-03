@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_overview.c                                      :+:      :+:    :+:   */
+/*   ft_overview_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 13:39:02 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/05/03 08:50:21 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 10:33:14 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,20 @@ static void	ft_draw_map_rectangles(t_engine *engine, int i_r, int i_c)
 	line.start.color = 0x00FFFFFF;
 	line.end.color = 0x00FFFFFF;
 	ft_draw_rectangle(engine, line);
+}
+
+void	ft_draw_player(t_engine *engine)
+{
+	t_line	player_pos;
+	t_map	*map;
+
+	map = engine->screen;
+	ft_set_line_color(&player_pos, 0x00FF00FF);
+	player_pos.start.x = (int)(map->player.x * map->map_tile_size
+			/ map->tile_size) + map->offset.x - 1;
+	player_pos.start.y = (int)(map->player.y * map->map_tile_size
+			/ map->tile_size) + map->offset.y - 1;
+	player_pos.end.x = player_pos.start.x + 2;
+	player_pos.end.y = player_pos.start.y + 2;
+	ft_draw_rectangle_full(engine, player_pos);
 }

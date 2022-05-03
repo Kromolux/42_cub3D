@@ -6,34 +6,16 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 08:41:40 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/05/03 08:47:30 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 10:46:40 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube3d.h"
 
-static void	ft_check_player_area(t_engine *engine);
 static void	ft_check_map_moveable(t_map *screen, t_line *line, int *free_x);
 static void	ft_calculate_xy(t_line *line, t_player player, char calc);
 
-void	ft_draw_player(t_engine *engine)
-{
-	t_line	player_pos;
-	t_map	*map;
-
-	map = engine->screen;
-	ft_set_line_color(&player_pos, 0x00FF00FF);
-	player_pos.start.x = (int)(map->player.x * map->map_tile_size
-			/ map->tile_size) + map->offset.x - 1;
-	player_pos.start.y = (int)(map->player.y * map->map_tile_size
-			/ map->tile_size) + map->offset.y - 1;
-	player_pos.end.x = player_pos.start.x + 2;
-	player_pos.end.y = player_pos.start.y + 2;
-	ft_draw_rectangle_full(engine, player_pos);
-	ft_check_player_area(engine);
-}
-
-static void	ft_check_player_area(t_engine *engine)
+void	ft_check_player_area(t_engine *engine)
 {
 	double		sx;
 	double		sy;

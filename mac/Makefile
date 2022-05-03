@@ -6,7 +6,7 @@
 #    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 08:48:00 by rkaufman          #+#    #+#              #
-#    Updated: 2022/05/02 19:41:48 by rkaufman         ###   ########.fr        #
+#    Updated: 2022/05/03 10:44:21 by rkaufman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,6 @@ SRCS			:=	ft_cube3d.c \
 					map/ft_file.c \
 					map/ft_string.c \
 					map/ft_map_array.c \
-					map/ft_overview.c \
 					map/ft_check_input_map0.c \
 					map/ft_check_input_map1.c \
 					map/ft_check_input_map2.c \
@@ -77,7 +76,7 @@ SRCS_BONUS		:=	ft_cube3d.c \
 					engine/ft_vertical_ray.c \
 					engine/ft_background.c \
 					engine/ft_texture.c \
-					engine/ft_grafic.c \
+					engine/ft_grafic_bonus.c \
 					engine/ft_display_info.c \
 					engine/ft_geometry.c \
 					engine/ft_color.c \
@@ -89,7 +88,7 @@ SRCS_BONUS		:=	ft_cube3d.c \
 					map/ft_file.c \
 					map/ft_string.c \
 					map/ft_map_array.c \
-					map/ft_overview.c \
+					map/ft_overview_bonus.c \
 					map/ft_check_input_map0.c \
 					map/ft_check_input_map1.c \
 					map/ft_check_input_map2.c \
@@ -103,7 +102,7 @@ SRCS_BONUS		:=	ft_cube3d.c \
 OBJS			:=	$(SRCS:%.c=$(OBJ_FOLDER)/%.o)
 OBJS_BONUS		:=	$(SRCS_BONUS:%.c=$(OBJ_FOLDER_BONUS)/%.o)
 
-CFLAGS		:=	-Wall -Wextra -Werror -g
+CFLAGS		:=	-Wall -Wextra -Werror
 
 all: $(NAME)
 

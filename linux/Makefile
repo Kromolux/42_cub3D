@@ -6,7 +6,7 @@
 #    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 08:48:00 by rkaufman          #+#    #+#              #
-#    Updated: 2022/05/03 08:37:44 by rkaufman         ###   ########.fr        #
+#    Updated: 2022/05/03 10:48:38 by rkaufman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ MLX_PATH			:=	minilibx-linux
 MLX_LIB				:=	mlx_Linux
 
 OBJ_FOLDER			:=	objs
+OBJ_FOLDER_BONUS	:=	objs_bonus
 SRC_FOLDER			:=	srcs
 
 CC					:=	gcc
@@ -53,7 +54,6 @@ SRCS			:=	ft_cube3d.c \
 					map/ft_file.c \
 					map/ft_string.c \
 					map/ft_map_array.c \
-					map/ft_overview.c \
 					map/ft_check_input_map0.c \
 					map/ft_check_input_map1.c \
 					map/ft_check_input_map2.c \
@@ -64,11 +64,45 @@ SRCS			:=	ft_cube3d.c \
 					errors/ft_error2.c \
 					errors/ft_error_map.c
 
-SRC_BONUS	:=	
+SRC_BONUS			:=	ft_cube3d.c \
+					engine/ft_engine0.c \
+					engine/ft_engine1_mac.c \
+					engine/ft_lines0.c \
+					engine/ft_lines1.c \
+					engine/ft_math.c \
+					engine/ft_pixel.c \
+					engine/ft_player.c \
+					engine/ft_horizontal_ray.c \
+					engine/ft_vertical_ray.c \
+					engine/ft_background.c \
+					engine/ft_texture.c \
+					engine/ft_grafic_bonus.c \
+					engine/ft_display_info.c \
+					engine/ft_geometry.c \
+					engine/ft_color.c \
+					engine/ft_raycasting0.c \
+					engine/ft_raycasting1.c \
+					keys/ft_key0_mac.c \
+					keys/ft_key1_mac.c \
+					keys/ft_key2_mac.c \
+					map/ft_file.c \
+					map/ft_string.c \
+					map/ft_map_array.c \
+					map/ft_overview_bonus.c \
+					map/ft_check_input_map0.c \
+					map/ft_check_input_map1.c \
+					map/ft_check_input_map2.c \
+					map/ft_memory_map0.c \
+					map/ft_memory_map1.c \
+					errors/ft_error0.c \
+					errors/ft_error1.c \
+					errors/ft_error2.c \
+					errors/ft_error_map.c
 
-OBJS		:=	$(SRCS:%.c=$(OBJ_FOLDER)/%.o)
+OBJS			:=	$(SRCS:%.c=$(OBJ_FOLDER)/%.o)
+OBJS_BONUS		:=	$(SRCS_BONUS:%.c=$(OBJ_FOLDER_BONUS)/%.o)
 
-CFLAGS		:=	-Wall -Wextra -Werror -g
+CFLAGS		:=	-Wall -Wextra -Werror
 
 all: $(NAME)
 
@@ -79,6 +113,16 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PRINTF_PATH) -lft_printf -L$(LIBFT_TOOLS_PATH) -lft_tools -L$(MLX_PATH) -l$(MLX_LIB) -L/usr/lib -lXext -lX11 -lm -lz -o $(NAME)
 
 $(OBJS): $(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+bonus: $(OBJS_BONUS)
+	make -C $(MLX_PATH)
+	make -C $(LIBFT_TOOLS_PATH)
+	make -C $(LIBFT_PRINTF_PATH)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(LIBFT_PRINTF_PATH) -lft_printf -L$(LIBFT_TOOLS_PATH) -lft_tools -L$(MLX_PATH) -l$(MLX_LIB) -L/usr/lib -lm -lz -framework OpenGL -framework AppKit -o $(NAME)
+
+$(OBJS_BONUS): $(OBJ_FOLDER_BONUS)/%.o: $(SRC_FOLDER)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 

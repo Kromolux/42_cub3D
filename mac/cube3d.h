@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 08:50:54 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/05/03 08:54:45 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 10:34:35 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,14 +331,15 @@ void			ft_key_player_rotate(t_engine *engine);
 int				ft_render_frame(t_engine *engine);
 void			ft_clear_image(t_engine *engine);
 
-//ft_overview.c
+//ft_overview_bonus.c
 void			ft_draw_map(t_engine *engine);
+void			ft_draw_player(t_engine *engine);
 
 //ft_display_info.c
 void			ft_display_info(t_engine *engine);
 
 //ft_player.c
-void			ft_draw_player(t_engine *engine);
+void			ft_check_player_area(t_engine *engine);
 
 //ft_raycasting0.c
 void			ft_cast_3d_ray(t_engine *engine);

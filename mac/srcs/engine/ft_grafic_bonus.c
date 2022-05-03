@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_grafic.c                                        :+:      :+:    :+:   */
+/*   ft_grafic_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:46:02 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/05/03 10:36:28 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 10:36:24 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_render_frame(t_engine *engine)
 {
+	ft_draw_map(engine);
+	ft_draw_player(engine);
 	ft_check_player_area(engine);
 	ft_draw_background(engine);
 	ft_cast_3d_ray(engine);
