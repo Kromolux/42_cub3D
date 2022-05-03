@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: ehosu <ehosu@student.42wolfsburg.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 08:48:00 by rkaufman          #+#    #+#              #
-#    Updated: 2022/05/03 10:48:38 by rkaufman         ###   ########.fr        #
+#    Updated: 2022/05/03 11:19:28 by ehosu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,9 +64,9 @@ SRCS			:=	ft_cube3d.c \
 					errors/ft_error2.c \
 					errors/ft_error_map.c
 
-SRC_BONUS			:=	ft_cube3d.c \
+SRCS_BONUS		:=	ft_cube3d.c \
 					engine/ft_engine0.c \
-					engine/ft_engine1_mac.c \
+					engine/ft_engine1_linux.c \
 					engine/ft_lines0.c \
 					engine/ft_lines1.c \
 					engine/ft_math.c \
@@ -82,9 +82,9 @@ SRC_BONUS			:=	ft_cube3d.c \
 					engine/ft_color.c \
 					engine/ft_raycasting0.c \
 					engine/ft_raycasting1.c \
-					keys/ft_key0_mac.c \
-					keys/ft_key1_mac.c \
-					keys/ft_key2_mac.c \
+					keys/ft_key0_linux.c \
+					keys/ft_key1_linux.c \
+					keys/ft_key2_linux.c \
 					map/ft_file.c \
 					map/ft_string.c \
 					map/ft_map_array.c \
@@ -120,7 +120,7 @@ bonus: $(OBJS_BONUS)
 	make -C $(MLX_PATH)
 	make -C $(LIBFT_TOOLS_PATH)
 	make -C $(LIBFT_PRINTF_PATH)
-	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(LIBFT_PRINTF_PATH) -lft_printf -L$(LIBFT_TOOLS_PATH) -lft_tools -L$(MLX_PATH) -l$(MLX_LIB) -L/usr/lib -lm -lz -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(LIBFT_PRINTF_PATH) -lft_printf -L$(LIBFT_TOOLS_PATH) -lft_tools -L$(MLX_PATH) -l$(MLX_LIB) -L/usr/lib -lXext -lX11 -lm -lz -o $(NAME)
 
 $(OBJS_BONUS): $(OBJ_FOLDER_BONUS)/%.o: $(SRC_FOLDER)/%.c
 	@mkdir -p $(@D)
@@ -128,6 +128,7 @@ $(OBJS_BONUS): $(OBJ_FOLDER_BONUS)/%.o: $(SRC_FOLDER)/%.c
 
 clean:
 	rm -fr $(OBJ_FOLDER)
+	rm -fr $(OBJ_FOLDER_BONUS)
 	make -C $(MLX_PATH) clean
 	make -C $(LIBFT_TOOLS_PATH) clean
 	make -C $(LIBFT_PRINTF_PATH) clean
