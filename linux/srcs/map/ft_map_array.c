@@ -6,13 +6,27 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:47:16 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/29 14:16:54 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 08:50:04 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube3d.h"
 
 static void	ft_assign_map_values(t_map *screen, char **string_array);
+
+void	ft_init_struct_t_map(t_map *map)
+{
+	map->tile_size = 32;
+	map->map_tile_size = 8;
+	map->offset.x = 1210;
+	map->offset.y = 450;
+	map->floor_color = -1;
+	map->ceiling_color = -1;
+	map->texture_no = NULL;
+	map->texture_so = NULL;
+	map->texture_we = NULL;
+	map->texture_ea = NULL;
+}
 
 void	ft_create_map_array(char *input, t_map *screen)
 {
@@ -30,19 +44,19 @@ void	ft_create_map_array(char *input, t_map *screen)
 
 static void	ft_assign_map_values(t_map *screen, char **input)
 {
-	int	i_row;
-	int	i_column;
+	int	i_r;
+	int	i_c;
 
-	i_row = 0;
-	while (i_row < screen->rows)
+	i_r = 0;
+	while (i_r < screen->rows)
 	{
-		i_column = 0;
-		while (i_column < screen->columns && input[screen->map_start + i_row][i_column])
+		i_c = 0;
+		while (i_c < screen->columns && input[screen->map_start + i_r][i_c])
 		{
-			screen->map[i_row][i_column] = input[screen->map_start + i_row][i_column];
-			i_column++;
+			screen->map[i_r][i_c] = input[screen->map_start + i_r][i_c];
+			i_c++;
 		}
-		i_row++;
+		i_r++;
 	}
 	ft_free_char_array(input);
 }

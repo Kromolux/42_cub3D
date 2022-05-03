@@ -6,7 +6,7 @@
 #    By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 08:48:00 by rkaufman          #+#    #+#              #
-#    Updated: 2022/04/29 14:41:17 by rkaufman         ###   ########.fr        #
+#    Updated: 2022/05/03 08:37:44 by rkaufman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,33 +30,39 @@ HEADERFILE			:=	cube3d.h
 SRC_LIB				:=	
 
 SRCS			:=	ft_cube3d.c \
-					map/map_validation.c \
-					engine/ft_engine.c \
+					engine/ft_engine0.c \
+					engine/ft_engine1_linux.c \
 					engine/ft_lines0.c \
 					engine/ft_lines1.c \
 					engine/ft_math.c \
-					engine/ft_rotations.c \
 					engine/ft_pixel.c \
 					engine/ft_player.c \
 					engine/ft_horizontal_ray.c \
 					engine/ft_vertical_ray.c \
 					engine/ft_background.c \
-					keys/ft_key0.c \
-					keys/ft_key1.c \
+					engine/ft_texture.c \
+					engine/ft_grafic.c \
+					engine/ft_display_info.c \
+					engine/ft_geometry.c \
+					engine/ft_color.c \
+					engine/ft_raycasting0.c \
+					engine/ft_raycasting1.c \
+					keys/ft_key0_linux.c \
+					keys/ft_key1_linux.c \
+					keys/ft_key2_linux.c \
 					map/ft_file.c \
 					map/ft_string.c \
 					map/ft_map_array.c \
 					map/ft_overview.c \
-					engine/ft_grafic.c \
-					engine/ft_display_info.c \
-					errors/ft_error.c \
+					map/ft_check_input_map0.c \
+					map/ft_check_input_map1.c \
+					map/ft_check_input_map2.c \
+					map/ft_memory_map0.c \
+					map/ft_memory_map1.c \
+					errors/ft_error0.c \
 					errors/ft_error1.c \
 					errors/ft_error2.c \
-					errors/ft_error_map.c \
-					map/ft_memory_map.c \
-					engine/ft_geometry.c \
-					engine/ft_color.c \
-					engine/ft_raycasting.c
+					errors/ft_error_map.c
 
 SRC_BONUS	:=	
 

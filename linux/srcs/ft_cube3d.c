@@ -6,14 +6,17 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:50:26 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/29 13:21:35 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 08:50:57 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube3d.h"
 
 static void	ft_init_cub3d(t_engine *engine);
-static void	ft_print_map_to_terminal(t_map *map);
+void		ft_print_map_to_terminal(t_map *map);
+
+	//mlx_hook(cub3d.window, 2, (1L << 0), &ft_key_pressed, &cub3d);
+	//mlx_hook(cub3d.window, 3, (1L << 1), &ft_key_released, &cub3d);
 
 int	main(int argc, char **argv)
 {
@@ -23,7 +26,6 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (ft_error_arguments());
 	cub3d.screen = ft_read_input_map(argv[1]);
-	ft_print_map_to_terminal(cub3d.screen);
 	ft_engine_init(&cub3d);
 	cub3d.file = (char *) malloc(ft_strlen(argv[1]) + 1);
 	if (!cub3d.file)
@@ -31,11 +33,7 @@ int	main(int argc, char **argv)
 	ft_copy(cub3d.file, argv[1], 0);
 	mlx_hook(cub3d.window, 17, 0, &ft_engine_destroy, &cub3d);
 	mlx_hook(cub3d.window, 2, (1L << 0), &ft_key, &cub3d);
-	//mlx_hook(cub3d.window, 2, (1L << 0), &ft_key_pressed, &cub3d);
-	//mlx_hook(cub3d.window, 3, (1L << 1), &ft_key_released, &cub3d);
 	mlx_loop_hook(cub3d.mlx, &ft_render_frame, &cub3d);
-	//mlx_do_key_autorepeaton(cub3d.mlx);
-	//mlx_do_sync(cub3d.mlx);
 	mlx_loop(cub3d.mlx);
 }
 
@@ -53,16 +51,19 @@ static void	ft_init_cub3d(t_engine *engine)
 	engine->file = NULL;
 	engine->screen = NULL;
 	engine->offset.x = 0;
-	engine->offset.y = 500;
-	engine->max_line_h = 320;
+	engine->offset.y = 0;
+	engine->max_line_h = 640;
+	engine->max_rays = (int)(FOV / STEP_ANGLE);
+	engine->max_line_w = (engine->max_rays * 2) - 1;
 }
 
-static void	ft_print_map_to_terminal(t_map *map)
+//DEBUG
+void	ft_print_map_to_terminal(t_map *map)
 {
 	int	y;
-	int x;
+	int	x;
 
-	ft_printf("created map for cub3D with rows=%i columns=%i\n", map->rows, map->columns);
+	ft_printf("created map with rows=%i columns=%i\n", map->rows, map->columns);
 	y = 0;
 	while (y < map->rows)
 	{

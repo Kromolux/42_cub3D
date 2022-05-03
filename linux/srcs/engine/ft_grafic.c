@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:46:02 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/29 13:42:11 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 08:46:23 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ int	ft_render_frame(t_engine *engine)
 	ft_draw_map(engine);
 	ft_draw_player(engine);
 	ft_draw_background(engine);
-	ft_draw_3d_ray(engine);
+	ft_cast_3d_ray(engine);
 	mlx_put_image_to_window(engine->mlx, engine->window,
 		engine->img->img, 0, 0);
-	mlx_put_image_to_window(engine->mlx, engine->window,
-		engine->no_tex.img, 0, 0);
 	if (engine->img == &engine->img0)
 		engine->img = &engine->img1;
 	else

@@ -6,63 +6,48 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:20:15 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/29 12:05:59 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 08:46:35 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube3d.h"
 
+static void	ft_ray_upward(t_ray *ray, t_player *player, int tile_size);
+static void	ft_ray_downward(t_ray *ray, t_player *player, int tile_size);
+
 void	ft_cast_horizontal_ray(t_engine *engine, t_ray *ray)
 {
-	t_player *player;
-	double	atan;
+	t_player	*player;
 
 	player = &engine->screen->player;
 	ray->step_dist = 0;
 	if (ray->angle > 180.0)
-	{
-		atan = -1 / tan(ft_deg_to_rad(ray->angle));
-		ray->y = (((int) player->y / (engine->screen->tile_size) ) * (engine->screen->tile_size)) - 0.0001;
-		ray->x = (player->y - ray->y) * atan + player->x;
-		ray->step_y = - (engine->screen->tile_size);
-		ray->step_x = (engine->screen->tile_size) * atan;
-	}
+		ft_ray_upward(ray, player, engine->screen->tile_size);
 	else if (ray->angle < 180.0)
-	{
-		atan = -1 / tan(ft_deg_to_rad(ray->angle));
-		ray->y = (((int) player->y / (engine->screen->tile_size)) * (engine->screen->tile_size)) + engine->screen->tile_size;
-		ray->x = (player->y - ray->y) * atan + player->x;
-		ray->step_y = engine->screen->tile_size;
-		ray->step_x = - (engine->screen->tile_size) * atan;
-	}
+		ft_ray_downward(ray, player, engine->screen->tile_size);
 	if (ray->angle == 0.0 || ray->angle == 180.0 || ray->angle == 360.0)
-	{
-		ray->x = player->x;
-		ray->y = player->y;
-		ray->step_dist = DISTANCE + 1;
-	}
-	while (ray->step_dist < DISTANCE)
-	{
-		ray->map_x = (int) ray->x / (engine->screen->tile_size);
-		ray->map_y = (int) ray->y / (engine->screen->tile_size);
-		if (ray->map_y >= 0 && ray->map_y < engine->screen->rows && ray->map_x >= 0 && ray->map_x < engine->screen->columns && engine->screen->map[ray->map_y][ray->map_x] == '1')
-		{
-			ray->step_dist = DISTANCE + 1;
-			ray->hori.x = ray->x;
-			ray->hori.y = ray->y;
-			ray->hori.dist = ft_dist(player, ray->x, ray->y);
-		}
-		else
-		{
-			ray->x += ray->step_x;
-			ray->y += ray->step_y;
-			ray->step_dist++;
-		}
-	}
-	if (ray->step_dist == DISTANCE)
-	{
-		ray->hori.x = ray->x;
-		ray->hori.y = ray->y;
-		ray->hori.dist = ft_dist(player, ray->x, ray->y);
-	}
+		ft_invalid_angle(ray, player);
+	ray->hori = ft_ray_hit(ray, player, engine->screen);
+}
+
+static void	ft_ray_upward(t_ray *ray, t_player *player, int tile_size)
+{
+	double		atan;
+
+	atan = -1 / tan(ft_deg_to_rad(ray->angle));
+	ray->y = (((int) player->y / (tile_size)) * (tile_size)) - 0.0001;
+	ray->x = (player->y - ray->y) * atan + player->x;
+	ray->step_y = - (tile_size);
+	ray->step_x = (tile_size) * atan;
+}
+
+static void	ft_ray_downward(t_ray *ray, t_player *player, int tile_size)
+{
+	double		atan;
+
+	atan = -1 / tan(ft_deg_to_rad(ray->angle));
+	ray->y = (((int) player->y / (tile_size)) * (tile_size)) + tile_size;
+	ray->x = (player->y - ray->y) * atan + player->x;
+	ray->step_y = tile_size;
+	ray->step_x = - (tile_size) * atan;
 }

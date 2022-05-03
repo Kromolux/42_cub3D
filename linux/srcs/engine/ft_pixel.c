@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:48:31 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/28 12:19:50 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 08:47:20 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,4 @@ int	ft_get_pixel(t_data *data, int x, int y)
 		return (*(unsigned int *) dst);
 	}
 	return (0);
-}
-
-void	ft_get_point(t_engine *engine, int row, int column, t_3d_point *point)
-{
-	(void) engine;
-		(void) row;
-			(void) column;
-				(void) point;
-	/*
-	point->x = engine->screen->offset.x + engine->screen->proj[row][column].x
-		+ engine->screen->movement.x;
-	point->y = engine->screen->offset.y + engine->screen->proj[row][column].y
-		+ engine->screen->movement.y;
-	point->color = engine->screen->proj[row][column].color;
-	*/
 }

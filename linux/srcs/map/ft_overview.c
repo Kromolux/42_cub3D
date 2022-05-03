@@ -6,7 +6,7 @@
 /*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 13:39:02 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/04/29 14:04:29 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 08:50:21 by rkaufman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	ft_draw_map_rectangles(t_engine *engine, int i_row, int i_column);
 
 void	ft_draw_map(t_engine *engine)
 {
-
 	int		i_row;
 	int		i_column;
 
@@ -34,17 +33,19 @@ void	ft_draw_map(t_engine *engine)
 	}
 }
 
-static void	ft_draw_map_rectangles(t_engine *engine, int i_row, int i_column)
+static void	ft_draw_map_rectangles(t_engine *engine, int i_r, int i_c)
 {
 	t_line	line;
+	t_map	*map;
 
-	line.start.x = i_column * (engine->screen->tile_size);
-	line.start.y = i_row * (engine->screen->tile_size);
-	line.end.x = (1 + i_column) * (engine->screen->tile_size) - 1;
-	line.end.y = (1 + i_row) * (engine->screen->tile_size) - 1;
-	if (engine->screen->map[i_row][i_column] == '1')
+	map = engine->screen;
+	line.start.x = i_c * (map->map_tile_size) + map->offset.x;
+	line.start.y = i_r * (map->map_tile_size) + map->offset.y;
+	line.end.x = (1 + i_c) * (map->map_tile_size) - 1 + map->offset.x;
+	line.end.y = (1 + i_r) * (map->map_tile_size) - 1 + map->offset.y;
+	if (map->map[i_r][i_c] == '1')
 		ft_set_line_color(&line, 0x00aaaaaa);
-	else if (ft_is_empty_space(engine->screen->map[i_row][i_column]) == RETURN_TRUE)
+	else if (ft_is_empty_space(map->map[i_r][i_c]) == RETURN_TRUE)
 		ft_set_line_color(&line, 0x00555555);
 	else
 		ft_set_line_color(&line, 0x00000000);
