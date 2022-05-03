@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: ehosu <ehosu@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 08:50:54 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/05/03 10:47:16 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 11:46:39 by ehosu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ int				ft_error_player(char c, int row, int column, t_map *map);
 int				ft_error_no_player(t_map *map);
 
 //ft_error2.c
-int				ft_error_map_file(char *s, int row, t_map *map);
+int				ft_error_map_file(char **s, int row, t_map *map);
 
 //ft_error_map.c
 void			ft_error_input(t_map *screen, char **string_array);

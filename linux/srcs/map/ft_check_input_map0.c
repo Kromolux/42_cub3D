@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_input_map0.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkaufman <rkaufman@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: ehosu <ehosu@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 08:04:45 by rkaufman          #+#    #+#             */
-/*   Updated: 2022/05/02 11:35:28 by rkaufman         ###   ########.fr       */
+/*   Updated: 2022/05/03 11:44:44 by ehosu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_check_identifiers_in_file(t_map *map, char **input)
 	{
 		i_c = ft_skip_whitespaces(input[i_r]);
 		if (ft_check_map_identifier(map, input[i_r], i_c) == RETURN_ERROR)
-			exit(ft_error_map_file(input[i_r], i_r, map));
+			exit(ft_error_map_file(input, i_r, map));
 		i_r++;
 		if (ft_check_all_map_identifier(map) == RETURN_SUCCESS)
 			break ;
